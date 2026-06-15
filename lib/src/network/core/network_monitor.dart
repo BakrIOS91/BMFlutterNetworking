@@ -1,27 +1,6 @@
-/// Network Connectivity Monitor for BMFlutter Networking Layer
-library;
-
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/foundation.dart';
-
-/// Provides real-time and on-demand network connectivity status monitoring
-class NetworkMonitor {
-  const NetworkMonitor._();
-
-  @visibleForTesting
-  static NetworkMonitor createForTesting() => const NetworkMonitor._();
-
-  static Future<bool> get isConnected async {
-    final results = await Connectivity().checkConnectivity();
-    return results.contains(ConnectivityResult.mobile) ||
-        results.contains(ConnectivityResult.wifi) ||
-        results.contains(ConnectivityResult.ethernet);
-  }
-
-  static Stream<bool> get onConnectivityChanged =>
-      Connectivity().onConnectivityChanged.map((results) {
-        return results.contains(ConnectivityResult.mobile) ||
-            results.contains(ConnectivityResult.wifi) ||
-            results.contains(ConnectivityResult.ethernet);
-      });
-}
+// Conditional export: connectivity_plus is not WASM-compatible.
+// On WASM (no dart:io, no dart:html), the stub is used so the package
+// remains WASM-compatible. Native and web builds use connectivity_plus.
+export 'network_monitor_wasm.dart'
+    if (dart.library.io) 'network_monitor_connectivity.dart'
+    if (dart.library.html) 'network_monitor_connectivity.dart';

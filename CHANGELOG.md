@@ -1,3 +1,8 @@
+## 0.1.9
+
+* Fixed WASM incompatibility: `NetworkMonitor` now uses conditional exports so `connectivity_plus` (which uses `dart:html` internally) is not imported on WASM targets.
+* On WASM, `NetworkMonitor.isConnected` returns `true` and `onConnectivityChanged` returns an empty stream; network failures surface as HTTP errors directly.
+
 ## 0.1.8
 
 * Fixed security issue: `SSLPinningHelper` no longer accepts TLS-invalid certificates for non-pinned hosts when `allowFallback` is true — `allowFallback` now only applies to pinned hosts where pinning validation fails.
