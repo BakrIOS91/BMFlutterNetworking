@@ -1,3 +1,8 @@
+## 0.1.2
+
+* Fixed homepage URL in pubspec.yaml.
+* Added example app demonstrating `Target`, `ModelTargetType`, and `performAsync`.
+
 ## 0.1.1
 
 * Bumped `connectivity_plus` constraint to `^7.1.1`.

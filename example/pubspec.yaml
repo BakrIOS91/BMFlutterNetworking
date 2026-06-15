@@ -1,0 +1,13 @@
+name: bm_flutter_networking_example
+description: Example app for bm_flutter_networking.
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: ">=3.6.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  bm_flutter_networking:
+    path: ../
