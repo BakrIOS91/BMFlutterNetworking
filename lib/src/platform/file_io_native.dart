@@ -10,7 +10,11 @@ Future<Uint8List?> readFileBytesFromPath(String path) async {
 Future<Uri?> saveStreamToTemp(String fileName, Stream<List<int>> stream) async {
   final file = File('${Directory.systemTemp.path}/$fileName');
   final sink = file.openWrite();
-  await stream.pipe(sink);
-  await sink.close();
+  try {
+    await stream.pipe(sink); // pipe() closes the sink on success
+  } catch (e) {
+    await sink.close(); // ensure the sink is closed on the error path
+    rethrow;
+  }
   return file.uri;
 }

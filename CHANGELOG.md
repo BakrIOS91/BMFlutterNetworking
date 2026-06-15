@@ -1,3 +1,10 @@
+## 0.1.8
+
+* Fixed security issue: `SSLPinningHelper` no longer accepts TLS-invalid certificates for non-pinned hosts when `allowFallback` is true — `allowFallback` now only applies to pinned hosts where pinning validation fails.
+* Fixed file sink not being closed on error in `saveStreamToTemp` (native file download).
+* Fixed `UnsupportedError` from web file I/O being swallowed and misreported as `invalidURL` on the `ModelTargetType` path.
+* Documented that `DownloadedFile.response.stream` is already consumed after `performDownload` completes.
+
 ## 0.1.7
 
 * Added dartdoc comments to public API elements to exceed 20% documentation threshold.

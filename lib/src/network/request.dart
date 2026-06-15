@@ -25,6 +25,7 @@ extension Request on TargetRequest {
       }
     } catch (e) {
       if (e is APIError) rethrow;
+      if (e is UnsupportedError) rethrow;
       throw const APIError(APIErrorType.invalidURL);
     }
   }

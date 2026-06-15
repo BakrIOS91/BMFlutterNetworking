@@ -23,8 +23,12 @@ class SSLPinningHelper {
     await _preloadCertificates();
 
     client.badCertificateCallback = (cert, host, port) {
+      // badCertificateCallback is only invoked when OS-level TLS validation
+      // has already failed. Non-pinned hosts must always be rejected here —
+      // returning allowFallback would accept TLS-invalid certs for any host
+      // not in pinnedHosts, which is a security bypass.
       if (!configuration.pinnedHosts.contains(host)) {
-        return configuration.allowFallback;
+        return false;
       }
 
       try {
@@ -34,6 +38,8 @@ class SSLPinningHelper {
         log('SSLPinning: Validation error: $e', name: 'SSLPinningHelper');
       }
 
+      // allowFallback only applies to pinned hosts where pinning validation
+      // itself failed (e.g. cert rotation during development).
       return configuration.allowFallback;
     };
 
