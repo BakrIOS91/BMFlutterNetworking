@@ -1,3 +1,7 @@
+## 0.1.3
+
+* Declared explicit platform support: Android, iOS, macOS, Windows, Linux.
+
 ## 0.1.2
 
 * Fixed homepage URL in pubspec.yaml.
