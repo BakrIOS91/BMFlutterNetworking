@@ -1,3 +1,7 @@
+## 0.1.1
+
+* Bumped `connectivity_plus` constraint to `^7.1.1`.
+
 ## 0.1.0
 
 * Initial release.
