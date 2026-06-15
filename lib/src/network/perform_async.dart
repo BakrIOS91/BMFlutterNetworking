@@ -8,16 +8,17 @@
 library;
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:bm_flutter_networking/src/helpers/api_error.dart';
 import 'package:bm_flutter_networking/src/helpers/enums.dart';
+import 'package:bm_flutter_networking/src/helpers/models/bm_cookie.dart';
 import 'package:bm_flutter_networking/src/helpers/models/downloaded_file.dart';
 import 'package:bm_flutter_networking/src/network/request.dart';
 import 'package:bm_flutter_networking/src/network/target_request.dart';
 import 'package:bm_flutter_networking/src/network/token_refresh_handler.dart';
+import 'package:bm_flutter_networking/src/platform/file_io.dart';
 import 'core/interceptor.dart';
 import 'core/interceptors/logging_interceptor.dart';
 import 'core/interceptors/auth_interceptor.dart';
@@ -120,24 +121,19 @@ extension PerformAsyncModelTargetType on ModelTargetType {
         throw APIError(APIErrorType.httpError, statusCode: statusCategory);
       }
 
-      final tempDir = Directory.systemTemp;
       String fileName = remoteUrl.pathSegments.last;
-
       if (useUniqueFilename) {
         final timestamp = DateTime.now().microsecondsSinceEpoch;
         final hash = hashCode.toRadixString(16);
         fileName = '${timestamp}_${hash}_$fileName';
       }
 
-      final filePath = '${tempDir.path}/$fileName';
-      final file = File(filePath);
-      final sink = file.openWrite();
-      await streamedResponse.stream.pipe(sink);
-      await sink.close();
+      final savedUri =
+          await saveStreamToTemp(fileName, streamedResponse.stream);
 
       if (statusCategory == HTTPStatusCode.success) {
         return DownloadedFile(
-            downloadedUrl: file.uri,
+            downloadedUrl: savedUri,
             response: streamedResponse,
             remoteUrl: remoteUrl);
       }
@@ -155,7 +151,7 @@ extension PerformAsyncModelTargetType on ModelTargetType {
     required int statusCode,
     required http.StreamedResponse streamedResponse,
     required String? rawSetCookie,
-    required List<Cookie> cookies,
+    required List<BMCookie> cookies,
   }) {
     try {
       final decodedJson = json.decode(utf8.decode(responseData));
@@ -229,6 +225,7 @@ extension PerformAsyncSuccessTargetType on SuccessTargetType {
           statusCode: statusCategory, errorModel: errorModel);
     } catch (error) {
       if (error is APIError) rethrow;
+      if (error is UnsupportedError) rethrow;
       throw const APIError(APIErrorType.invalidResponse);
     } finally {
       networkClient.close();

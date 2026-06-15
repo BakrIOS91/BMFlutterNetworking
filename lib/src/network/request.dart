@@ -2,11 +2,11 @@
 library;
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:bm_flutter_networking/bm_flutter_networking.dart';
+import 'package:bm_flutter_networking/src/platform/file_io.dart';
 
 /// Extension to create HTTP requests from TargetRequest configurations
 extension Request on TargetRequest {
@@ -67,14 +67,12 @@ extension Request on TargetRequest {
       case RequestTaskType.uploadFile:
         final filePath = requestTask.filePath;
         if (filePath != null) {
-          final file = File(filePath);
-          if (await file.exists()) {
-            final bytes = await file.readAsBytes();
-            request.bodyBytes = bytes;
-            request.headers['Content-Length'] = bytes.length.toString();
-          } else {
+          final bytes = await readFileBytesFromPath(filePath);
+          if (bytes == null) {
             throw const APIError(APIErrorType.invalidURL);
           }
+          request.bodyBytes = bytes;
+          request.headers['Content-Length'] = bytes.length.toString();
         }
         return request;
 

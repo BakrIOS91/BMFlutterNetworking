@@ -1,7 +1,9 @@
 /// Network Response Wrapper for BMFlutter Networking Layer
 library;
 
-import 'dart:io';
+import 'package:bm_flutter_networking/src/helpers/models/bm_cookie.dart';
+
+export 'package:bm_flutter_networking/src/helpers/models/bm_cookie.dart';
 
 /// Network response wrapper containing decoded data and response metadata.
 class NetworkResponse<T> {
@@ -9,7 +11,7 @@ class NetworkResponse<T> {
   final int statusCode;
   final Map<String, String> headers;
   final String? rawSetCookieHeader;
-  final List<Cookie> cookies;
+  final List<BMCookie> cookies;
 
   const NetworkResponse({
     required this.data,
@@ -25,18 +27,16 @@ class NetworkResponse<T> {
   }
 }
 
-/// Best-effort parsing for Set-Cookie header into Cookie objects.
-List<Cookie> parseSetCookieHeader(String? headerValue) {
+/// Best-effort parsing for Set-Cookie header into BMCookie objects.
+List<BMCookie> parseSetCookieHeader(String? headerValue) {
   if (headerValue == null || headerValue.trim().isEmpty) return const [];
 
   final parts = _splitSetCookie(headerValue);
-  final cookies = <Cookie>[];
+  final cookies = <BMCookie>[];
   for (final part in parts) {
     try {
-      cookies.add(Cookie.fromSetCookieValue(part));
-    } catch (_) {
-      // Ignore malformed cookie parts
-    }
+      cookies.add(BMCookie.fromSetCookieValue(part));
+    } catch (_) {}
   }
   return cookies;
 }

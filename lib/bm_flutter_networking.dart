@@ -6,6 +6,7 @@ library;
 
 export 'src/helpers/enums.dart';
 export 'src/helpers/api_error.dart';
+export 'src/helpers/models/bm_cookie.dart';
 export 'src/helpers/models/downloaded_file.dart';
 
 /// =======================
@@ -18,6 +19,7 @@ export 'src/network/core/network_response.dart';
 export 'src/network/core/request_task.dart';
 export 'src/network/core/result.dart';
 export 'src/network/core/ssl_pinning.dart';
+export 'src/network/core/ssl_pinning_helper.dart';
 export 'src/network/perform_async.dart';
 export 'src/network/perform_result.dart';
 export 'src/network/error_handler.dart';

@@ -1,3 +1,10 @@
+## 0.1.5
+
+* Added web platform support via conditional imports.
+* Replaced `dart:io` Cookie with platform-agnostic `BMCookie` class.
+* File I/O (upload/download) isolated behind conditional exports; throws `UnsupportedError` on web.
+* `SSLPinningHelper` isolated behind conditional exports; throws `UnsupportedError` on web (browsers handle TLS natively).
+
 ## 0.1.4
 
 * Re-publish to resolve version conflict on pub.dev.
