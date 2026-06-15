@@ -1,3 +1,5 @@
+/// BMFlutterNetworking — a type-safe Flutter networking layer with automatic
+/// token refresh, SSL pinning, interceptors, and connectivity monitoring.
 library;
 
 /// =======================

@@ -2,23 +2,50 @@ import 'enums.dart';
 
 /// Enum representing API error categories for comprehensive error handling
 enum APIErrorType {
+  /// The request URL could not be formed or resolved.
   invalidURL,
+
+  /// The response data could not be decoded into the expected model.
   dataConversionFailed,
+
+  /// A string encoding or decoding step failed.
   stringConversionFailed,
+
+  /// The server returned a non-2xx HTTP status code.
   httpError,
+
+  /// A SOAP multipart request was malformed.
   invalidSoapMultipartRequest,
+
+  /// XML encoding of the request body failed.
   xmlEncodingFailed,
+
+  /// The requested SOAP operation is not supported.
   notSupportedSOAPOperation,
+
+  /// No internet connection was available when the request was attempted.
   noNetwork,
+
+  /// The server response could not be interpreted.
   invalidResponse,
 }
 
-/// Represents different types of network-related errors with detailed information
+/// Represents a network error with a category, optional HTTP status code,
+/// and an optional decoded error payload from the server.
 class APIError implements Exception {
+  /// The broad category of the error.
   final APIErrorType type;
+
+  /// The HTTP status code category returned by the server, if applicable.
   final HTTPStatusCode? statusCode;
+
+  /// An optional decoded error payload attached by [APIErrorResponseMapper].
+  ///
+  /// Cast to your app's error model to read server-provided error details.
   final dynamic errorModel;
 
+  /// Creates an [APIError] with the given [type] and optional [statusCode]
+  /// and [errorModel].
   const APIError(this.type, {this.statusCode, this.errorModel});
 
   @override

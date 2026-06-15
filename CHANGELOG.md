@@ -1,3 +1,8 @@
+## 0.1.7
+
+* Added dartdoc comments to public API elements to exceed 20% documentation threshold.
+* Removed redundant `bm_cookie.dart` import in `perform_async.dart` (already re-exported via `network_response.dart`).
+
 ## 0.1.6
 
 * Added unit tests for `BMCookie` and web platform stubs.

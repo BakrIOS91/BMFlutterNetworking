@@ -13,7 +13,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:bm_flutter_networking/src/helpers/api_error.dart';
 import 'package:bm_flutter_networking/src/helpers/enums.dart';
-import 'package:bm_flutter_networking/src/helpers/models/bm_cookie.dart';
 import 'package:bm_flutter_networking/src/helpers/models/downloaded_file.dart';
 import 'package:bm_flutter_networking/src/network/request.dart';
 import 'package:bm_flutter_networking/src/network/target_request.dart';

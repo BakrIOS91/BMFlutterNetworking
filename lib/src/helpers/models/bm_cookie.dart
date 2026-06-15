@@ -1,14 +1,31 @@
 /// Platform-agnostic HTTP cookie representation.
 library;
 
+/// A platform-agnostic representation of an HTTP cookie parsed from a
+/// `Set-Cookie` response header.
+///
+/// Unlike `dart:io`'s `Cookie`, this class works on all Flutter platforms
+/// including web.
 class BMCookie {
+  /// The cookie name.
   final String name;
+
+  /// The cookie value.
   final String value;
+
+  /// The `Domain` attribute, or `null` if not set.
   final String? domain;
+
+  /// The `Path` attribute, or `null` if not set.
   final String? path;
+
+  /// Whether the `HttpOnly` flag is set.
   final bool httpOnly;
+
+  /// Whether the `Secure` flag is set.
   final bool secure;
 
+  /// Creates a [BMCookie] with the given [name] and [value].
   const BMCookie({
     required this.name,
     required this.value,
@@ -18,6 +35,10 @@ class BMCookie {
     this.secure = false,
   });
 
+  /// Parses a single `Set-Cookie` header value into a [BMCookie].
+  ///
+  /// Attributes such as `Path`, `Domain`, `HttpOnly`, and `Secure` are
+  /// extracted when present. Unknown attributes are silently ignored.
   factory BMCookie.fromSetCookieValue(String cookieString) {
     final parts = cookieString.split(';');
     final nameValue = parts.first.trim();
