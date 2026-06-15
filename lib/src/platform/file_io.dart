@@ -1,1 +1,1 @@
-export 'file_io_native.dart' if (dart.library.html) 'file_io_web.dart';
+export 'file_io_web.dart' if (dart.library.io) 'file_io_native.dart';

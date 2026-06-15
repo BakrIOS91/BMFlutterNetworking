@@ -1,2 +1,2 @@
-export 'ssl_pinning_helper_native.dart'
-    if (dart.library.html) 'ssl_pinning_helper_web.dart';
+export 'ssl_pinning_helper_web.dart'
+    if (dart.library.io) 'ssl_pinning_helper_native.dart';
