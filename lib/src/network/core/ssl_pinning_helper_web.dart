@@ -8,7 +8,7 @@ class SSLPinningHelper {
 
   SSLPinningHelper({required this.configuration});
 
-  Future<Never> createSecureHttpClient() {
+  Future<Never> createSecureHttpClient() async {
     throw UnsupportedError(
       'SSLPinningHelper is not supported on web. '
       'Browsers handle certificate validation natively.',

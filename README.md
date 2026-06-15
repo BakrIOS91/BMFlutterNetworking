@@ -7,6 +7,7 @@ A structured Flutter networking layer providing type-safe API requests, automati
 ## Table of Contents
 
 - [Installation](#installation)
+- [Platform Support](#platform-support)
 - [Architecture Overview](#architecture-overview)
 - [Step 1 — Define Your Targets](#step-1--define-your-targets)
 - [Step 2 — Create Request Classes](#step-2--create-request-classes)
@@ -28,15 +29,25 @@ A structured Flutter networking layer providing type-safe API requests, automati
 
 ## Installation
 
-Add the package to your `pubspec.yaml`:
-
 ```yaml
 dependencies:
-  bm_flutter_networking:
-    git:
-      url: https://github.com/bakrmohamed/BMFlutterNetworking
-      ref: 0.1.0
+  bm_flutter_networking: ^0.1.5
 ```
+
+---
+
+## Platform Support
+
+| Platform | HTTP Requests | File Upload/Download | SSL Pinning |
+|---|---|---|---|
+| Android | ✅ | ✅ | ✅ |
+| iOS | ✅ | ✅ | ✅ |
+| macOS | ✅ | ✅ | ✅ |
+| Windows | ✅ | ✅ | ✅ |
+| Linux | ✅ | ✅ | ✅ |
+| Web | ✅ | ⚠️ throws `UnsupportedError` | ⚠️ throws `UnsupportedError` |
+
+> **Web note:** HTTP requests, cookies, and JSON decoding work fully on web. File upload via path (`RequestTask.uploadFile`) and `performDownload()` throw `UnsupportedError` on web — use `RequestTask.uploadMultipart` with `Uint8List` bytes for file uploads instead. `SSLPinningHelper.createSecureHttpClient()` is also unavailable on web (browsers enforce TLS natively).
 
 ---
 
@@ -532,10 +543,10 @@ void main() async {
 | `RequestTask.parameters(Map)` | Query string parameters |
 | `RequestTask.encodedBody(dynamic)` | JSON body (POST / PUT / PATCH) |
 | `RequestTask.parametersAndBody(Map, dynamic)` | Query params **and** JSON body |
-| `RequestTask.uploadFile(String path)` | Single binary file upload |
-| `RequestTask.uploadMultipart(Map<String, MultipartFormData>)` | Multipart form fields / files |
-| `RequestTask.download(String url)` | Download a file from a full URL |
-| `RequestTask.downloadResumable({int? offset})` | Resumable download (Range header) |
+| `RequestTask.uploadFile(String path)` | Single binary file upload (native only) |
+| `RequestTask.uploadMultipart(Map<String, MultipartFormData>)` | Multipart form fields / files (all platforms) |
+| `RequestTask.download(String url)` | Download a file from a full URL (native only) |
+| `RequestTask.downloadResumable({int? offset})` | Resumable download with Range header (native only) |
 
 ### Multipart upload example
 
@@ -579,8 +590,8 @@ All response methods are available on both `ModelTargetType` and `SuccessTargetT
 | `performResult<T>()` | `Result<T, APIError>` | No — wraps in `Failure` |
 | `performAsyncWithCookies<T>()` | `NetworkResponse<T>` | Yes — throws `APIError` |
 | `performResultWithCookies<T>()` | `Result<NetworkResponse<T>, APIError>` | No — wraps in `Failure` |
-| `performDownload()` | `DownloadedFile?` | Yes — throws `APIError` |
-| `performDownloadResult()` | `Result<DownloadedFile?, APIError>` | No — wraps in `Failure` |
+| `performDownload()` | `DownloadedFile?` | Yes — throws `APIError` (native only) |
+| `performDownloadResult()` | `Result<DownloadedFile?, APIError>` | No — wraps in `Failure` (native only) |
 
 **Prefer `performResult` / `performDownloadResult`** in production code — they never throw, and the `Result` type forces you to handle both outcomes at compile time.
 
@@ -614,19 +625,37 @@ try {
 
 Use the `WithCookies` variants when you need to read `Set-Cookie` headers from the response (e.g. session management).
 
+Cookies are represented by the platform-agnostic `BMCookie` class (works on all platforms including web).
+
 ```dart
 final response = await LoginRequest(email: email, password: password)
     .performAsyncWithCookies<AuthToken>();
 
-final token = response.data;            // the decoded AuthToken
-final sessionCookie = response.cookies  // List<Cookie>
-    .firstWhere((c) => c.name == 'session', orElse: () => Cookie('', ''));
+final token = response.data;              // the decoded AuthToken
+final List<BMCookie> cookies = response.cookies;
+final sessionCookie = cookies.firstWhere(
+  (c) => c.name == 'session',
+  orElse: () => BMCookie(name: '', value: ''),
+);
 final rawHeader = response.rawSetCookieHeader;  // original Set-Cookie string
 ```
+
+`BMCookie` fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `name` | `String` | Cookie name |
+| `value` | `String` | Cookie value |
+| `domain` | `String?` | Domain attribute |
+| `path` | `String?` | Path attribute |
+| `httpOnly` | `bool` | HttpOnly flag |
+| `secure` | `bool` | Secure flag |
 
 ---
 
 ## File Downloads
+
+> **Native platforms only.** Calling `performDownload()` on web throws `UnsupportedError`.
 
 ```dart
 final class DownloadInvoiceRequest extends ModelTargetType<void> with Authorized {
@@ -669,7 +698,9 @@ result.when(
 
 ## File Uploads
 
-### Single file
+### Single file (native only)
+
+> `RequestTask.uploadFile` reads from a file path using `dart:io` and throws `UnsupportedError` on web. Use multipart with `Uint8List` bytes for cross-platform file uploads.
 
 ```dart
 final class UploadDocumentRequest extends SuccessTargetType with Authorized {
@@ -691,7 +722,7 @@ final class UploadDocumentRequest extends SuccessTargetType with Authorized {
 }
 ```
 
-### Multipart with metadata fields
+### Multipart with metadata fields (all platforms)
 
 ```dart
 final class CreatePostRequest extends ModelTargetType<Post> with Authorized {
@@ -730,6 +761,8 @@ final class CreatePostRequest extends ModelTargetType<Post> with Authorized {
 ---
 
 ## SSL Pinning
+
+> **Native platforms only.** `SSLPinningHelper.createSecureHttpClient()` throws `UnsupportedError` on web — browsers enforce TLS certificate validation natively.
 
 Enable SSL pinning per-request by overriding `sslPinningConfiguration` on your target request class.
 
