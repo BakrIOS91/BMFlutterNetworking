@@ -1,3 +1,7 @@
+## 0.1.4
+
+* Re-publish to resolve version conflict on pub.dev.
+
 ## 0.1.3
 
 * Declared explicit platform support: Android, iOS, macOS, Windows, Linux.
