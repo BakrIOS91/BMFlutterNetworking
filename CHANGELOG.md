@@ -1,3 +1,8 @@
+## 0.1.6
+
+* Added unit tests for `BMCookie` and web platform stubs.
+* Updated README with platform support table, `BMCookie` docs, and web caveats.
+
 ## 0.1.5
 
 * Added web platform support via conditional imports.
