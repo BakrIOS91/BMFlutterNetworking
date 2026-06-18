@@ -48,6 +48,9 @@ class APIError implements Exception {
   /// and [errorModel].
   const APIError(this.type, {this.statusCode, this.errorModel});
 
+  /// Returns [errorModel] cast to [T], or null if the cast fails or [errorModel] is null.
+  T? errorModelAs<T>() => errorModel as T?;
+
   @override
   String toString() {
     final baseMessage = _baseMessage();

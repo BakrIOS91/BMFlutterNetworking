@@ -1,3 +1,7 @@
+## 0.1.11
+
+* Added `errorModelAs<T>()` to `APIError` — typed accessor for the decoded error payload, replacing the double-cast pattern `(apiError.errorModel as T?)` with `apiError.errorModelAs<T>()`.
+
 ## 0.1.10
 
 * Fixed WASM incompatibility caused by `file_io.dart` and `ssl_pinning_helper.dart` falling back to the native (`dart:io`) implementation when `dart.library.html` is absent — which is the case on both native AND WASM. Conditional exports now default to the web stub and only opt into native when `dart.library.io` is explicitly available.
