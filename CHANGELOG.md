@@ -1,3 +1,7 @@
+## 0.1.12
+
+* Added full production example app: Supabase backend, BLoC + Freezed state management, `WithViewState` error handling, `auto_route` navigation, and `envied`-based config with test credentials pre-filled.
+
 ## 0.1.11
 
 * Added `errorModelAs<T>()` to `APIError` — typed accessor for the decoded error payload, replacing the double-cast pattern `(apiError.errorModel as T?)` with `apiError.errorModelAs<T>()`.
