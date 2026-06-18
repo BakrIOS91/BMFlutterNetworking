@@ -1,0 +1,165 @@
+# ----------------------------------------
+# Miscellaneous
+# ----------------------------------------
+*.class
+*.lock
+*.log
+*.pyc
+*.swp
+*~
+.buildlog/
+.history
+.DS_Store
+lib/compiled.dart
+
+# ----------------------------------------
+# Flutter / Dart / Pub
+# ----------------------------------------
+.dart_tool/
+.packages
+.packages.generated
+.pub/
+.pub-preload-cache/
+.flutter-plugins
+.flutter-plugins-dependencies
+**/generated_plugin_registrant.*
+build/
+flutter_*.png
+linked_*.ds
+unlinked.ds
+unlinked_spec.ds
+**/doc/api/
+.idea/
+
+
+# Optional coverage
+coverage/
+
+# Symbols
+app.*.symbols
+
+# ----------------------------------------
+# Android
+# ----------------------------------------
+**/android/build/
+**/android/**/gradle-wrapper.jar
+.gradle/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+**/android/key.properties
+*.jks
+
+# ----------------------------------------
+# iOS / Xcode
+# ----------------------------------------
+**/ios/**/*.mode1v3
+**/ios/**/*.mode2v3
+**/ios/**/*.moved-aside
+**/ios/**/*.pbxuser
+**/ios/**/*.perspectivev3
+**/ios/**/*sync/
+**/ios/**/.sconsign.dblite
+**/ios/**/.tags*
+**/ios/**/.vagrant/
+**/ios/**/DerivedData/
+**/ios/**/Icon?
+**/ios/**/Pods/
+**/ios/**/.symlinks/
+**/ios/**/profile
+**/ios/**/xcuserdata
+**/ios/.generated/
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/ephemeral
+**/ios/Flutter/app.flx
+**/ios/Flutter/app.zip
+**/ios/Flutter/flutter_assets/
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+ios/Runner.xcodeproj/project.xcworkspace/xcshareddata
+ios/Runner.xcodeproj/xcshareddata
+ios/Runner.xcworkspace/xcshareddata
+# Keep default Xcode files
+!**/ios/**/default.mode1v3
+!**/ios/**/default.mode2v3
+!**/ios/**/default.pbxuser
+!**/ios/**/default.perspectivev3
+
+# ----------------------------------------
+# macOS
+# ----------------------------------------
+**/macos/Flutter/ephemeral/
+**/macos/Flutter/GeneratedPluginRegistrant.swift
+**/Pods/
+**/xcuserdata/
+
+# ----------------------------------------
+# Windows
+# ----------------------------------------
+**/windows/flutter/generated_plugin_registrant.cc
+**/windows/flutter/generated_plugin_registrant.h
+**/windows/flutter/generated_plugins.cmake
+
+# ----------------------------------------
+# Linux
+# ----------------------------------------
+**/linux/flutter/generated_plugin_registrant.cc
+**/linux/flutter/generated_plugin_registrant.h
+**/linux/flutter/generated_plugins.cmake
+
+# ----------------------------------------
+# IDE / Editor
+# ----------------------------------------
+*.iml
+.idea/
+.vscode/
+
+# ----------------------------------------
+# Exceptions
+# ----------------------------------------
+!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+!/dev/ci/**/Gemfile.lock
+.idea
+app_localizations_*
+devtools_options.yaml
+devtools_options.yml
+.flutter-devtools/
+linux/flutter/ephemeral/
+.flutter-plugins-dependencies
+.flutter-plugins
+.packages
+.pub/
+.dart_tool/
+.idea/
+.flutter-plugins-dependencies
+pubspec.lock
+*.iml
+*.iml
+
+# Dart / Flutter generated files
+**/*.g.dart
+**/*.freezed.dart
+**/*.injector.config.dart
+**/*.preferences.dart
+*_injector.config.dart
+*.gr.dart
+lib/generated/assets.dart
+
+# ----------------------------------------
+# Fastlane
+# ----------------------------------------
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots/**/*.png
+**/fastlane/test_output
+**/fastlane/README.md
+vendor/bundle/
+ios/build_log.txt
+.bundle/config
