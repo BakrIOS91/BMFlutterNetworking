@@ -31,7 +31,7 @@ A structured Flutter networking layer providing type-safe API requests, automati
 
 ```yaml
 dependencies:
-  bm_flutter_networking: ^0.1.5
+  bm_flutter_networking: ^0.2.0
 ```
 
 ---
@@ -810,7 +810,47 @@ Logger.isEnabled = true;   // force on (e.g. during QA)
 Logger.isEnabled = false;  // force off (e.g. in tests)
 ```
 
-In release builds, logging defaults to `kDebugMode` (off).
+In release builds, logging defaults to `kDebugMode` (off). Tie this to your
+own environment flag instead if `kDebugMode` doesn't line up with your
+build flavors (e.g. a release build against a staging environment):
+
+```dart
+Logger.isEnabled = !isProduction;
+```
+
+### In-app Network Inspector
+
+Beyond console logging, the layer ships an in-app network log viewer —
+shake the device to open a bottom sheet listing every captured request,
+with search, a light/dark theme toggle, and a detail screen (real
+push/pop navigation, copy-to-clipboard on every section) for headers and
+bodies. It's fed by the same `Logger.isEnabled` flag, so it's on/off
+exactly where console logging is.
+
+Wrap your root widget with `NetworkInspectorOverlay`, typically inside
+`MaterialApp`'s `builder`:
+
+```dart
+MaterialApp(
+  // ...
+  builder: (context, child) => NetworkInspectorOverlay(
+    enabled: !isProduction, // skip listening for shakes in production
+    child: child!,
+  ),
+)
+```
+
+- **iOS** — uses the native shake gesture (the same mechanism as "Shake to
+  Undo"), so it works in the Simulator (Device > Shake Gesture) as well as
+  on real devices.
+- **Android / other platforms** — falls back to accelerometer-magnitude
+  thresholding (no OS-level shake gesture exists there); on an emulator,
+  trigger it via Extended Controls > Virtual sensors > Accelerometer, or
+  `adb emu sensor set acceleration <x>:<y>:<z>`.
+
+The list and detail screens (`NetworkLogListPage`, `NetworkLogDetailPage`)
+are also exported standalone, in case you'd rather push them from your own
+debug menu route instead of via the shake gesture.
 
 ---
 

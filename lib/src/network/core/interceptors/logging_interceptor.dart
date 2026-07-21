@@ -1,10 +1,19 @@
 import 'dart:async';
+import 'dart:typed_data';
+
 import 'package:http/http.dart' as http;
+import 'package:bm_flutter_networking/src/network/core/inspector/network_inspector.dart';
+import 'package:bm_flutter_networking/src/network/core/inspector/network_log_entry.dart';
 import 'package:bm_flutter_networking/src/network/core/logger.dart';
 import '../interceptor.dart';
 
-/// Interceptor that handles logging of requests and responses.
+/// Interceptor that handles logging of requests and responses, both to the
+/// console (via [Logger]) and to the in-app [NetworkInspector] used by
+/// [NetworkInspectorOverlay].
 class LoggingInterceptor extends NetworkInterceptor {
+  NetworkLogEntry? _entry;
+  final Stopwatch _stopwatch = Stopwatch();
+
   @override
   FutureOr<http.BaseRequest> onRequest(http.BaseRequest request) {
     if (!Logger.isEnabled) return request;
@@ -20,6 +29,15 @@ class LoggingInterceptor extends NetworkInterceptor {
       headers: request.headers,
       body: body,
     );
+
+    _stopwatch.start();
+    _entry = NetworkInspector.instance.logRequest(
+      method: request.method,
+      url: request.url,
+      headers: request.headers,
+      body: body is Uint8List ? body : null,
+    );
+
     return request;
   }
 
@@ -35,6 +53,15 @@ class LoggingInterceptor extends NetworkInterceptor {
       url: request.url,
       statusCode: response.statusCode,
       responseData: bytes,
+    );
+
+    _stopwatch.stop();
+    NetworkInspector.instance.logResponse(
+      entry: _entry,
+      statusCode: response.statusCode,
+      headers: response.headers,
+      body: bytes,
+      duration: _stopwatch.elapsed,
     );
 
     return http.StreamedResponse(
@@ -59,6 +86,14 @@ class LoggingInterceptor extends NetworkInterceptor {
       url: request.url,
       error: error,
     );
+
+    _stopwatch.stop();
+    NetworkInspector.instance.logError(
+      entry: _entry,
+      error: error,
+      duration: _stopwatch.elapsed,
+    );
+
     return null;
   }
 }

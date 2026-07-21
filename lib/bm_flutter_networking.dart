@@ -15,6 +15,9 @@ export 'src/helpers/models/downloaded_file.dart';
 /// NETWORK — Core
 /// =======================
 
+export 'src/network/core/inspector/network_inspector.dart';
+export 'src/network/core/inspector/network_inspector_overlay.dart';
+export 'src/network/core/inspector/network_log_entry.dart';
 export 'src/network/core/logger.dart';
 export 'src/network/core/network_monitor.dart';
 export 'src/network/core/network_response.dart';

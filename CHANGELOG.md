@@ -1,3 +1,10 @@
+## 0.2.0
+
+* Added an in-app network inspector: shake the device to open a bottom sheet listing every captured request, with search, a light/dark theme toggle, and a detail screen (real push/pop navigation, copy-to-clipboard) for headers and bodies. Gated by the existing `Logger.isEnabled` flag.
+* On iOS, shake detection uses the native `motionEnded` gesture (works in the Simulator's Device > Shake Gesture, not just on real devices) via a small bundled native plugin.
+* On other platforms, shake detection falls back to `sensors_plus` accelerometer thresholding.
+* `NetworkLogListPage` and `NetworkLogDetailPage` are also exported standalone for apps that want to push them from their own debug menu instead of the shake gesture.
+
 ## 0.1.12
 
 * Added full production example app: Supabase backend, BLoC + Freezed state management, `WithViewState` error handling, `auto_route` navigation, and `envied`-based config with test credentials pre-filled.
