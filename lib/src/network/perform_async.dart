@@ -154,7 +154,7 @@ extension PerformAsyncModelTargetType on ModelTargetType {
   }) {
     try {
       final decodedJson = json.decode(utf8.decode(responseData));
-      final data = fromJson(decodedJson);
+      final data = fromDynamicJson(decodedJson);
       return NetworkResponse<Response>(
         data: data,
         statusCode: statusCode,

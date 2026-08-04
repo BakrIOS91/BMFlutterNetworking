@@ -109,4 +109,13 @@ abstract class ModelTargetType<T> extends TargetRequest {
       'fromJson MUST be overridden or a decoder MUST be provided in the constructor for ModelTargetType<$T>',
     );
   }
+
+  /// Override this instead of [fromJson] when the response body's top-level
+  /// JSON shape isn't a `Map` (e.g. an array). [fromJson]'s parameter type is
+  /// fixed to `Map<String, dynamic>`, so it can't express that case — and
+  /// widening it would break every existing `Map`-typed override (Dart
+  /// requires an override's parameter type to be the same as, or a
+  /// supertype of, the overridden method's). Defaults to forwarding to
+  /// [fromJson], so existing object-returning targets are unaffected.
+  T fromDynamicJson(dynamic json) => fromJson(json as Map<String, dynamic>);
 }

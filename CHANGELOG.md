@@ -1,3 +1,8 @@
+## 0.2.1
+
+* Fixed `ModelTargetType` requests crashing with `TypeError: type 'List<dynamic>' is not a subtype of type 'Map<String, dynamic>'` for any endpoint whose success response is a top-level JSON array. The internal decode call was statically typed against `fromJson(Map<String, dynamic>)`, so Dart inserted an implicit downcast before dispatch, regardless of the target's own override.
+* Added `ModelTargetType.fromDynamicJson(dynamic json)` — override this instead of `fromJson` when a response's top-level JSON shape isn't a `Map` (e.g. an array). Defaults to forwarding to `fromJson`, so every existing object-returning target is unaffected; no changes needed unless you decode a top-level array.
+
 ## 0.2.0
 
 * Added an in-app network inspector: shake the device to open a bottom sheet listing every captured request, with search, a light/dark theme toggle, and a detail screen (real push/pop navigation, copy-to-clipboard) for headers and bodies. Gated by the existing `Logger.isEnabled` flag.

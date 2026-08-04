@@ -1,6 +1,6 @@
 name: bm_flutter_networking
 description: "A Flutter networking package providing a type-safe network layer with SSL pinning, token refresh, interceptors, and connectivity monitoring."
-version: 0.2.0
+version: 0.2.1
 homepage: "https://github.com/BakrIOS91/BMFlutterNetworking"
 
 platforms:
