@@ -1,11 +1,25 @@
 # BMFlutterNetworking
 
-A structured Flutter networking layer providing type-safe API requests, automatic token refresh, custom error mapping, and SSL pinning.
+A structured, production-ready Flutter networking layer. Describe each endpoint as one small class and get type-safe requests, automatic token refresh, secure payloads and live data streams, without writing interceptors or plumbing in every app.
+
+## Features
+
+- **Type-safe endpoints:** one class per request (`ModelTargetType<T>` / `SuccessTargetType`), results as `Result<T, APIError>` or exceptions, your choice.
+- **Automatic token refresh:** a 401 on an authorized request refreshes the token once (shared by concurrent requests) and replays the call.
+- **Payload encryption:** hybrid AES-128-CBC + RSA body encryption, switchable per environment and per endpoint.
+- **Timeouts and cancellation:** connect, send and receive timeouts (global with per-endpoint overrides) and a `CancelToken` for BLoCs.
+- **Safe on bad networks:** offline requests are never queued; a request that loses its connection fails fast, and state-changing calls are never retried automatically.
+- **WebSocket streams:** authenticated, multi-stream sockets with backoff reconnect, token refresh on reconnect, connection state and a close-all for logout.
+- **Error mapping:** decode server error payloads into your own models.
+- **Cookies, uploads and downloads:** multipart and file uploads, resumable downloads.
+- **SSL pinning, logging and an in-app network inspector** (shake to open).
+- **Platforms:** Android, iOS, macOS, Windows, Linux, web (WASM-compatible).
 
 ---
 
 ## Table of Contents
 
+- [Features](#features)
 - [Installation](#installation)
 - [Platform Support](#platform-support)
 - [Architecture Overview](#architecture-overview)
@@ -24,6 +38,10 @@ A structured Flutter networking layer providing type-safe API requests, automati
 - [SSL Pinning](#ssl-pinning)
 - [Logging](#logging)
 - [Network Connectivity](#network-connectivity)
+- [Payload Encryption](#payload-encryption)
+- [Timeouts](#timeouts)
+- [Cancellation and Dropped Connections](#cancellation-and-dropped-connections)
+- [WebSocket Streams](#websocket-streams)
 
 ---
 
@@ -872,3 +890,93 @@ NetworkMonitor.onConnectivityChanged.listen((isConnected) {
 ```
 
 The layer checks connectivity automatically before every request and throws `APIError(APIErrorType.noNetwork)` when offline — your client code receives it as a `Failure` in the `Result` type without any extra connectivity checks needed.
+
+---
+
+## Payload Encryption
+
+Request bodies can be encrypted before they leave the device (hybrid encryption: a random AES key and IV per request, the AES key wrapped with the server's RSA public key). Configure once in `main()`:
+
+```dart
+NetworkConfig.configure(
+  payloadEncryptor: HybridPayloadEncryptor(
+    publicKeyPem: Env.encryptPublicKey,      // X.509 or PKCS#1 PEM; literal "\n" is accepted
+    // rsaPadding: RsaPadding.pkcs1v15,      // default; also oaepSha1 / oaepSha256
+    // aesKeyFormat: AesKeyFormat.hexString, // default; or rawBytes
+  ),
+  isPayloadEncryptionEnabled: Env.envName != 'dev', // per-environment switch
+);
+```
+
+Every `encodedBody` / `parametersAndBody` request is then sent as `{ "data": base64(cipher), "iv": base64(iv), "key": base64(rsa(aesKey)) }`:
+
+1. AES-128-CBC with PKCS7 padding over `jsonEncode(body)`.
+2. The AES key's **lowercase hex string** (UTF-8) is encrypted with RSA PKCS#1 v1.5 (the `CryptoJS` + `JSEncrypt` combination). Use `aesKeyFormat` / `rsaPadding` if your backend differs.
+
+Opt a single endpoint out with `bool get encryptsPayload => false;` on the request class. GET query strings can be encrypted too by setting `NetworkConfig.encryptQueryParameters = true` (only when the backend decrypts them). An unusable key or an encryption failure throws `APIError(APIErrorType.encryptionFailed)` and nothing is sent.
+
+> Verify the RSA padding and the exact envelope format against the backend's decryption code before relying on it in production.
+
+---
+
+## Timeouts
+
+Three limits, global with a per-endpoint override:
+
+| Limit | Meaning | Global | Per endpoint |
+| :--- | :--- | :--- | :--- |
+| connect | Opening the connection (native only; default: platform) | `NetworkConfig.connectTimeout` | `connectTimeout` getter |
+| send | Request sent until the response headers arrive (default 30 s) | `NetworkConfig.sendTimeout` | `sendTimeout` getter |
+| receive | Reading the response body (default 30 s) | `NetworkConfig.receiveTimeout` | `receiveTimeout` getter |
+
+A timeout throws `APIError(APIErrorType.timeout)`. Setting `connectTimeout` makes the request use a dedicated `dart:io` client, which `http.runWithClient` mocks do not replace.
+
+---
+
+## Cancellation and Dropped Connections
+
+Pass a `CancelToken` to any `perform…` method; cancelling it aborts the request and closes its connection (`APIErrorType.cancelled`):
+
+```dart
+final token = CancelToken();
+final result = await request.performResult(cancelToken: token);
+// in BLoC.close():
+token.cancel();
+```
+
+While a request is in flight the layer listens to connectivity. If the connection drops it aborts straight away instead of waiting for the timeout:
+
+| Request | Error |
+| :--- | :--- |
+| Before sending, offline | `noNetwork` (nothing is built or queued) |
+| GET / HEAD / OPTIONS dropped mid-flight | `noNetwork` |
+| POST / PUT / PATCH / DELETE dropped mid-flight | `connectionLostDuringRequest` |
+
+For the second case the server may already have processed the request (a withdrawal, a swap). It is **never retried automatically** and the 401 refresh-and-retry skips it; check the outcome (for example reload the transaction) before letting the user try again. Map `noNetwork` and `connectionLostDuringRequest` to your "no network + retry" view state. Multipart uploads are cancelled the same way; downloads keep their resume support (`RequestTask.downloadResumable`).
+
+---
+
+## WebSocket Streams
+
+`BMWebSocketClient` keeps an authenticated, self-healing socket and exposes it as Dart streams.
+
+```dart
+final prices = BMWebSocketClient(
+  url: Uri.parse('wss://api.example.com/api/v2/ranger/private/'),
+  streams: ['global.currencies_prices', 'global.currencies_data'], // ?stream=a&stream=b
+  accessToken: () async => prefs.authLogin?.accessToken,          // same source as the REST refresh handler
+  headers: {if (Platform.isIOS) 'User-Agent': 'MyApp'},
+  shouldReconnect: () => prefs.isLoggedIn,
+);
+BMWebSocketRegistry.register('prices', prices);
+
+prices.states.listen((s) => ...);        // connecting, open, reconnecting, closed
+prices.jsonMessages.listen((m) => ...);  // or `messages` for raw frames
+await prices.connect();
+```
+
+- The access token is sent as `Authorization: Bearer …` in the handshake (native; browsers cannot set headers).
+- An unexpected close (any code except 1000/1001) or a failed connect reconnects with exponential backoff and jitter (`ReconnectPolicy.exponential()`, or `ReconnectPolicy.fixed(Duration(seconds: 5))`), and immediately when connectivity returns.
+- Before each reconnect the token is refreshed through `TokenRefreshRegistry`, then read again from `accessToken`.
+- `close()` is deliberate: it never reconnects. `BMWebSocketRegistry.closeAll()` closes every registered socket; call it on each logout path.
+

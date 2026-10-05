@@ -1,6 +1,6 @@
 name: bm_flutter_networking
-description: "A Flutter networking package providing a type-safe network layer with SSL pinning, token refresh, interceptors, and connectivity monitoring."
-version: 0.2.1
+description: "Type-safe Flutter networking layer: one class per endpoint, automatic token refresh with retry, hybrid AES/RSA payload encryption, timeouts and cancellation, drop-on-disconnect handling, self-healing WebSocket streams, SSL pinning and an in-app network inspector."
+version: 2.2.0
 homepage: "https://github.com/BakrIOS91/BMFlutterNetworking"
 
 platforms:
@@ -24,6 +24,7 @@ dependencies:
   http_parser: ^4.1.2
   connectivity_plus: ^7.1.1
   sensors_plus: ^6.0.0
+  web_socket_channel: ^3.0.3
 
   # Security & Cryptography
   pointycastle: ^4.0.0
@@ -33,6 +34,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  stream_channel: ^2.1.4
 
 flutter:
   plugin:

@@ -51,6 +51,8 @@ class WithViewState extends StatefulWidget {
     if (error is! APIError) return UnexpectedError(errorModel: error);
     switch (error.type) {
       case APIErrorType.noNetwork:
+      // The request was dropped mid-flight; the screen offers a retry.
+      case APIErrorType.connectionLostDuringRequest:
         return NoNetwork(errorModel: error);
       case APIErrorType.httpError:
         if (error.statusCode == HTTPStatusCode.notAuthorize) {

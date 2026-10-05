@@ -28,6 +28,20 @@ enum APIErrorType {
 
   /// The server response could not be interpreted.
   invalidResponse,
+
+  /// The request payload could not be encrypted. The request was not sent.
+  encryptionFailed,
+
+  /// The request timed out before the server answered.
+  timeout,
+
+  /// The request was cancelled with a `CancelToken`.
+  cancelled,
+
+  /// The connection dropped while a request was in flight. For requests that
+  /// change state (non-GET) the server may already have processed it, so the
+  /// request is not retried automatically; check the outcome before retrying.
+  connectionLostDuringRequest,
 }
 
 /// Represents a network error with a category, optional HTTP status code,
@@ -80,6 +94,14 @@ class APIError implements Exception {
         return 'No internet connection.';
       case APIErrorType.invalidResponse:
         return 'Invalid response.';
+      case APIErrorType.encryptionFailed:
+        return 'Failed to encrypt the request payload.';
+      case APIErrorType.timeout:
+        return 'The request timed out.';
+      case APIErrorType.cancelled:
+        return 'The request was cancelled.';
+      case APIErrorType.connectionLostDuringRequest:
+        return 'The connection was lost while the request was in flight.';
     }
   }
 }
