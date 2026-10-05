@@ -234,6 +234,14 @@ void main() {
       );
     });
   });
+
+  group('ModelTargetType.fromDynamicJson', () {
+    test('defaults to forwarding a Map to fromJson', () {
+      final target = _OverrideTarget();
+      final model = target.fromDynamicJson({'name': 'Carol'});
+      expect(model.name, 'Carol');
+    });
+  });
 }
 
 // Helper target that overrides requestTask for description tests

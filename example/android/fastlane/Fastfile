@@ -1,0 +1,48 @@
+# Use bundle exec fastlane <lane>
+default_platform(:android)
+
+before_all do
+  # Load environment variables from .env if running standalone
+  if File.exist?("../../.env")
+    require 'dotenv'
+    Dotenv.load("../../.env")
+  end
+end
+
+platform :android do
+  desc "Run Flutter unit tests"
+  lane :test do
+    run_with_env("cd ../.. && flutter test")
+  end
+
+  desc "Build and Distribute to Firebase App Distribution"
+  lane :distribute do
+    run_with_env("cd ../.. && flutter build apk --release")
+    
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID_ANDROID"],
+      groups: ENV["FIREBASE_TESTER_GROUPS"],
+      release_notes: ENV["RELEASE_NOTES"] || "New Android build from Fastlane",
+      apk_path: File.expand_path("../../build/app/outputs/flutter-apk/app-release.apk", __dir__),
+      firebase_cli_token: ENV["FIREBASE_TOKEN"],
+      debug: false
+    )
+  end
+end
+
+# Helper to run shell commands with a guaranteed environment and Bundler isolation
+def run_with_env(command)
+  flutter_bin = ENV["FLUTTER_PATH"] || "/opt/homebrew/share/flutter/bin"
+  hb_bin = "/opt/homebrew/bin"
+  path_prefix = "export PATH=\"#{flutter_bin}:#{hb_bin}:$PATH\""
+  locale_prefix = "export LANG=en_US.UTF-8 && export LC_ALL=en_US.UTF-8"
+  full_command = "#{locale_prefix} && #{path_prefix} && #{command}"
+  
+  if defined?(Bundler)
+    Bundler.with_unbundled_env do
+      sh(full_command)
+    end
+  else
+    sh(full_command)
+  end
+end

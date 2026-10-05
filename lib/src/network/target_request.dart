@@ -3,6 +3,7 @@ library;
 
 import 'package:bm_flutter_networking/src/helpers/enums.dart';
 
+import 'core/network_config.dart';
 import 'core/network_monitor.dart';
 import 'core/request_task.dart';
 import 'core/ssl_pinning.dart';
@@ -19,6 +20,15 @@ abstract class TargetRequest {
   Map<String, String> get authHeaders;
   SSLPinningConfiguration? get sslPinningConfiguration;
   bool get useUniqueFilename => false;
+
+  /// Set to false to send this endpoint's body in plain JSON even when
+  /// [NetworkConfig] encryption is enabled.
+  bool get encryptsPayload => true;
+
+  /// Per-endpoint timeout overrides. Null uses the [NetworkConfig] values.
+  Duration? get connectTimeout => null;
+  Duration? get sendTimeout => null;
+  Duration? get receiveTimeout => null;
 
   Map<String, String> get mergedHeaders {
     final combined = {...headers, ...authHeaders};
@@ -109,4 +119,13 @@ abstract class ModelTargetType<T> extends TargetRequest {
       'fromJson MUST be overridden or a decoder MUST be provided in the constructor for ModelTargetType<$T>',
     );
   }
+
+  /// Override this instead of [fromJson] when the response body's top-level
+  /// JSON shape isn't a `Map` (e.g. an array). [fromJson]'s parameter type is
+  /// fixed to `Map<String, dynamic>`, so it can't express that case — and
+  /// widening it would break every existing `Map`-typed override (Dart
+  /// requires an override's parameter type to be the same as, or a
+  /// supertype of, the overridden method's). Defaults to forwarding to
+  /// [fromJson], so existing object-returning targets are unaffected.
+  T fromDynamicJson(dynamic json) => fromJson(json as Map<String, dynamic>);
 }

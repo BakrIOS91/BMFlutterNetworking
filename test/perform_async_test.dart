@@ -66,6 +66,31 @@ class _UserTarget extends ModelTargetType<_User> {
       _User(id: json['id'], name: json['name']);
 }
 
+// ModelTargetType returning a top-level JSON array (regression: overriding
+// fromDynamicJson must let a non-Map body reach the decoder without an
+// implicit Map cast — see target_request.dart).
+class _UserListTarget extends ModelTargetType<List<_User>> {
+  @override
+  String get baseURL => 'https://api.example.com/';
+  @override
+  String get requestPath => 'users';
+  @override
+  HTTPMethod get requestMethod => HTTPMethod.get;
+  @override
+  Map<String, String> get headers => const {};
+  @override
+  Map<String, String> get authHeaders => const {};
+
+  @override
+  List<_User> fromDynamicJson(dynamic json) {
+    if (json is! List) return const [];
+    return json
+        .whereType<Map<String, dynamic>>()
+        .map((e) => _User(id: e['id'], name: e['name']))
+        .toList();
+  }
+}
+
 // SuccessTargetType for void requests
 class _PingTarget extends SuccessTargetType {
   @override
@@ -125,6 +150,28 @@ void main() {
 
       expect(user.id, 1);
       expect(user.name, 'Alice');
+    });
+
+    test('returns decoded list on 200 response with a top-level JSON array',
+        () async {
+      _mockConnectivity(['wifi']);
+      final responseBody = jsonEncode([
+        {'id': 1, 'name': 'Alice'},
+        {'id': 2, 'name': 'Bob'},
+      ]);
+      final target = _UserListTarget();
+
+      final users = await http.runWithClient(
+        () => target.performAsync<List<_User>>(),
+        () => MockClient(
+          (_) async => http.Response(responseBody, 200,
+              headers: {'content-type': 'application/json'}),
+        ),
+      );
+
+      expect(users, hasLength(2));
+      expect(users[0].name, 'Alice');
+      expect(users[1].name, 'Bob');
     });
 
     test('throws APIError.httpError on 404 response', () async {

@@ -1,0 +1,370 @@
+00:00 +0: loading /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart
+00:00 +0: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/account_info_bloc_test.dart: (setUpAll)
+00:00 +0: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/account_info_bloc_test.dart: AccountInfoBloc initial state is correct
+00:00 +1: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/account_info_bloc_test.dart: AccountInfoBloc loadData emits loaded state when profile exists
+00:00 +2: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/account_info_bloc_test.dart: AccountInfoBloc didTapEdit toggles isEditing
+00:00 +3: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/account_info_bloc_test.dart: AccountInfoBloc updates firstName and validates it
+00:00 +4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/home_test.dart: (setUpAll)
+00:00 +5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/home_test.dart: (setUpAll)
+00:00 +5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/account_info_bloc_test.dart: AccountInfoBloc didTapSave calls updateProfile and handles success
+00:00 +6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/home_test.dart: HomeBloc Initialization (Started Event) sets empty name when no user is logged in (Guest)
+00:00 +7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/home_test.dart: HomeBloc Initialization (Started Event) sets empty name when no user is logged in (Guest)
+00:00 +7 -1: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/home_test.dart: HomeBloc Initialization (Started Event) sets empty name when no user is logged in (Guest) [E]
+  Bad state: A test tried to use `any` or `captureAny` on a parameter of type `PopularHotelsRequest`, but
+  registerFallbackValue was not previously called to register a fallback value for `PopularHotelsRequest`.
+  
+  To fix, do:
+  
+  ```
+  void main() {
+    setUpAll(() {
+      registerFallbackValue(/* create a dummy instance of `PopularHotelsRequest` */);
+    });
+  }
+  ```
+  
+  This instance of `PopularHotelsRequest` will only be passed around, but never be interacted with.
+  Therefore, if `PopularHotelsRequest` is a function, it does not have to return a valid object and
+  could throw unconditionally.
+  If you cannot easily create an instance of `PopularHotelsRequest`, consider defining a `Fake`:
+  
+  ```
+  class MyTypeFake extends Fake implements MyType {}
+  
+  void main() {
+    setUpAll(() {
+      registerFallbackValue(MyTypeFake());
+    });
+  }
+  ```
+  
+  Fallbacks are required because mocktail has to know of a valid `PopularHotelsRequest` to prevent
+  TypeErrors from being thrown in Dart's sound null safe mode, while still
+  providing a convenient syntax.
+  
+  package:mocktail/src/_register_matcher.dart 49:5    _getFallbackValue
+  package:mocktail/src/_register_matcher.dart 160:25  _registerMatcher
+  package:mocktail/src/_register_matcher.dart 104:10  any
+  test/home_test.dart 50:48                           main.<fn>.<fn>
+  package:mocktail/src/mocktail.dart 211:9            when.<fn>
+  test/home_test.dart 50:9                            main.<fn>
+  
+00:00 +7 -1: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/home_test.dart: HomeBloc Initialization (Started Event) sets user name and avatar when user is logged in
+00:00 +7 -2: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/home_test.dart: HomeBloc Initialization (Started Event) sets user name and avatar when user is logged in [E]
+  Bad state: A test tried to use `any` or `captureAny` on a parameter of type `PopularHotelsRequest`, but
+  registerFallbackValue was not previously called to register a fallback value for `PopularHotelsRequest`.
+  
+  To fix, do:
+  
+  ```
+  void main() {
+    setUpAll(() {
+      registerFallbackValue(/* create a dummy instance of `PopularHotelsRequest` */);
+    });
+  }
+  ```
+  
+  This instance of `PopularHotelsRequest` will only be passed around, but never be interacted with.
+  Therefore, if `PopularHotelsRequest` is a function, it does not have to return a valid object and
+  could throw unconditionally.
+  If you cannot easily create an instance of `PopularHotelsRequest`, consider defining a `Fake`:
+  
+  ```
+  class MyTypeFake extends Fake implements MyType {}
+  
+  void main() {
+    setUpAll(() {
+      registerFallbackValue(MyTypeFake());
+    });
+  }
+  ```
+  
+  Fallbacks are required because mocktail has to know of a valid `PopularHotelsRequest` to prevent
+  TypeErrors from being thrown in Dart's sound null safe mode, while still
+  providing a convenient syntax.
+  
+  package:mocktail/src/_register_matcher.dart 49:5    _getFallbackValue
+  package:mocktail/src/_register_matcher.dart 160:25  _registerMatcher
+  package:mocktail/src/_register_matcher.dart 104:10  any
+  test/home_test.dart 50:48                           main.<fn>.<fn>
+  package:mocktail/src/mocktail.dart 211:9            when.<fn>
+  test/home_test.dart 50:9                            main.<fn>
+  
+00:00 +7 -2: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/home_test.dart: (tearDownAll)
+00:00 +7 -2: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: (setUpAll)
+00:00 +7 -2: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: BookingBloc initial state is correct
+00:00 +8 -2: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_details_bloc_test.dart: HotelDetailsBloc initial state is correct
+00:00 +9 -2: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: BookingBloc Event: started emits loading then loaded with data when storage has items
+00:00 +10 -2: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: BookingBloc Event: started emits loading then loaded with data when storage has items
+00:00 +11 -2: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: BookingBloc Event: started emits loading then loaded with data when storage has items
+00:00 +11 -3: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_details_bloc_test.dart: HotelDetailsBloc emits state with toggled description expanded
+00:00 +12 -3: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_details_bloc_test.dart: HotelDetailsBloc emits state with navigationTo=facilities when see all facilities pressed
+00:00 +13 -3: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_details_bloc_test.dart: HotelDetailsBloc emits state with null navigationTo on resetNavigation
+00:00 +14 -3: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_details_bloc_test.dart: HotelDetailsBloc ToggleFavorite navigates to login if user is not logged in
+00:00 +14 -3: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: BookingBloc Event: started emits loading then loaded with data when storage has items [E]
+  Expected: [
+              <<Instance of 'BookingState'> with `viewState`: <Instance of 'Loading'>>,
+              <<Instance of 'BookingState'> with `viewState`: <Instance of 'Loaded'> and `bookings`: [Instance of 'BookingModel', Instance of 'BookingModel']>
+            ]
+    Actual: [
+              _Initial:BookingState.initial(bookings: [], searchQuery: , viewState: Instance of 'Loaded', resultsViewState: Instance of 'Loading'),
+              _Initial:BookingState.initial(bookings: [Instance of 'BookingModel', Instance of 'BookingModel'], searchQuery: , viewState: Instance of 'Loaded', resultsViewState: Instance of 'Loaded')
+            ]
+     Which: at location [0] is _Initial:<BookingState.initial(bookings: [], searchQuery: , viewState: Instance of 'Loaded', resultsViewState: Instance of 'Loading')> which has `viewState` with value <Instance of 'Loaded'>
+  
+  package:matcher                              expect
+  package:bloc_test/src/bloc_test.dart 218:16  testBloc.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                   _Completer.completeError
+  package:bloc_test/src/bloc_test.dart 255:43  _runZonedGuarded.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                   _CustomZone.registerBinaryCallback
+  package:bloc_test/src/bloc_test.dart 252:5   _runZonedGuarded.<fn>
+  dart:async                                   runZonedGuarded
+  package:bloc_test/src/bloc_test.dart 251:3   _runZonedGuarded
+  package:bloc_test/src/bloc_test.dart 198:11  testBloc
+  package:bloc_test/src/bloc_test.dart 156:13  blocTest.<fn>
+  
+00:00 +15 -3: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_details_bloc_test.dart: HotelDetailsBloc ToggleFavorite emits loading and then loaded state with toggled favorite on success
+00:00 +15 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_details_bloc_test.dart: HotelDetailsBloc ToggleFavorite emits loading and then loaded state with toggled favorite on success
+00:00 +16 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: BookingBloc Event: started emits loading then NoData when storage is empty [E]
+  Expected: [
+              <<Instance of 'BookingState'> with `viewState`: <Instance of 'Loading'>>,
+              <<Instance of 'BookingState'> with `viewState`: <Instance of 'NoData'> and `bookings`: empty>
+            ]
+    Actual: [
+              _Initial:BookingState.initial(bookings: [], searchQuery: , viewState: Instance of 'Loaded', resultsViewState: Instance of 'Loading'),
+              _Initial:BookingState.initial(bookings: [], searchQuery: , viewState: Instance of 'Loaded', resultsViewState: Instance of 'NoData')
+            ]
+     Which: at location [0] is _Initial:<BookingState.initial(bookings: [], searchQuery: , viewState: Instance of 'Loaded', resultsViewState: Instance of 'Loading')> which has `viewState` with value <Instance of 'Loaded'>
+  
+  package:matcher                              expect
+  package:bloc_test/src/bloc_test.dart 218:16  testBloc.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                   _Completer.completeError
+  package:bloc_test/src/bloc_test.dart 255:43  _runZonedGuarded.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                   _CustomZone.registerBinaryCallback
+  package:bloc_test/src/bloc_test.dart 252:5   _runZonedGuarded.<fn>
+  dart:async                                   runZonedGuarded
+  package:bloc_test/src/bloc_test.dart 251:3   _runZonedGuarded
+  package:bloc_test/src/bloc_test.dart 198:11  testBloc
+  package:bloc_test/src/bloc_test.dart 156:13  blocTest.<fn>
+  
+00:00 +16 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: BookingBloc Event: queryChanged updates searchQuery in state
+00:00 +17 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: BookingBloc Event: clearSearch clears searchQuery in state
+00:00 +18 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: BookingBloc Event: deleteBooking removes booking from state and storage when deletion is successful
+00:00 +19 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/booking_bloc_test.dart: BookingBloc Event: deleteBooking does not emit new state when deletion fails
+00:00 +20 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient fetchAll returns empty list when box is empty
+00:00 +21 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient fetchAll returns empty list when box is empty
+00:00 +22 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient fetchAll returns empty list when box is empty
+00:00 +23 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient fetchAll returns empty list when box is empty
+00:00 +24 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient add then fetchAll returns the saved item
+00:00 +25 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient multiple adds are persisted and all retrieved
+00:00 +26 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient fetchAll with reverseOrder=true (default) returns newest first
+00:00 +27 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient fetchAll with reverseOrder=false returns insertion order
+00:00 +28 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: (setUpAll)
+00:00 +29 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: (setUpAll)
+00:00 +29 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient clear removes all entries from the box
+00:00 +30 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Initialization (Started Event) sets empty username and password when no credentials in prefs
+00:00 +30 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient fetchAll silently skips corrupted / non-parseable entries
+[HiveStorageClient] Failed to decode entry: FormatException: Unexpected character (at character 1)
+NOT VALID JSON {{{{
+^
+
+#0      _ChunkedJsonParser.fail (dart:convert-patch/convert_patch.dart:1467:5)
+#1      _ChunkedJsonParser.parseNumber (dart:convert-patch/convert_patch.dart:1333:9)
+#2      _ChunkedJsonParser.parse (dart:convert-patch/convert_patch.dart:935:22)
+#3      _parseJson (dart:convert-patch/convert_patch.dart:35:10)
+#4      JsonDecoder.convert (dart:convert/json.dart:641:36)
+#5      JsonCodec.decode (dart:convert/json.dart:223:41)
+#6      jsonDecode (dart:convert/json.dart:160:12)
+#7      HiveStorageClient.fetchAll (package:flutter_full_project/core/storage_services/hive_storage_client.dart:47:46)
+<asynchronous suspension>
+#8      main.<anonymous closure>.<anonymous closure> (file:///Volumes/Data/Work/Link/Flutter/iOS%20-%20Flutter/test/hive_storage_client_test.dart:169:22)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:15)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+
+00:00 +31 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Initialization (Started Event) sets empty username and password when no credentials in prefs
+00:00 +31 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hive_storage_client_test.dart: HiveStorageClient fetchAll skips entries whose fromJson throws
+[HiveStorageClient] Failed to decode entry: type 'Null' is not a subtype of type 'int' in type cast
+#0      new _Item.fromJson (file:///Volumes/Data/Work/Link/Flutter/iOS%20-%20Flutter/test/hive_storage_client_test.dart:18:28)
+#1      HiveStorageClient.fetchAll (package:flutter_full_project/core/storage_services/hive_storage_client.dart:48:27)
+<asynchronous suspension>
+#2      main.<anonymous closure>.<anonymous closure> (file:///Volumes/Data/Work/Link/Flutter/iOS%20-%20Flutter/test/hive_storage_client_test.dart:186:22)
+<asynchronous suspension>
+#3      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:15)
+<asynchronous suspension>
+#4      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#5      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+
+00:00 +32 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Initialization (Started Event) sets empty username and password when no credentials in prefs
+00:00 +33 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Initialization (Started Event) sets username and password from prefs when they exist
+00:00 +34 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Input Changes usernameChanged updates username and clears error
+00:00 +35 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Input Changes passwordChanged updates password and clears error
+00:00 +36 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Input Changes passwordVisibleChanged toggles visibility
+00:00 +37 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Validation (didPressLogin) emits errors if both username and password empty
+00:00 +38 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Validation (didPressLogin) emits error if only username is empty
+00:00 +39 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Validation (didPressLogin) emits error if email format is invalid
+00:00 +40 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Validation (didPressLogin) emits error if only password is empty
+00:00 +41 -4: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Login API Interaction calls AuthClient and updates state on success
+00:00 +41 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Login API Interaction calls AuthClient and updates state on success [E]
+  type 'Null' is not a subtype of type 'Future<void>'
+  test/login_test.dart 19:7                                                             MockAnalyticsService.loginEvent
+  package:flutter_full_project/features/auth/login/bloc/login_bloc.dart 128:24          LoginBloc._onEvent.<fn>.<fn>
+  package:ld_flutter/src/network/core/result.dart 51:14                                 Result.when
+  package:flutter_full_project/features/auth/login/bloc/login_bloc.dart 120:14          LoginBloc._onEvent.<fn>
+  package:flutter_full_project/features/auth/login/bloc/login_bloc.freezed.dart 302:34  LoginEventPatterns.when
+  package:flutter_full_project/features/auth/login/bloc/login_bloc.dart 35:11           LoginBloc._onEvent
+  package:bloc/src/bloc.dart 226:26                                                     Bloc.on.<fn>.handleEvent
+  package:bloc/src/bloc.dart 237:9                                                      Bloc.on.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                                            _Completer.completeError
+  package:bloc_test/src/bloc_test.dart 255:43                                           _runZonedGuarded.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                                            Future._asyncCompleteError
+  package:flutter_full_project/features/auth/login/bloc/login_bloc.freezed.dart 302:34  LoginEventPatterns.when
+  package:flutter_full_project/features/auth/login/bloc/login_bloc.dart 35:11           LoginBloc._onEvent
+  package:bloc/src/bloc.dart 226:26                                                     Bloc.on.<fn>.handleEvent
+  package:bloc/src/bloc.dart 237:9                                                      Bloc.on.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                                            _ForwardingStream.listen
+  package:bloc/src/bloc.dart 341:40                                                     _FlatMapStreamTransformer.bind.<fn>
+  dart:async                                                                            _StreamImpl.listen
+  package:bloc/src/bloc.dart 240:7                                                      Bloc.on
+  package:flutter_full_project/features/auth/login/bloc/login_bloc.dart 28:5            new LoginBloc
+  test/login_test.dart 183:22                                                           main.<fn>.<fn>.<fn>
+  package:bloc_test/src/bloc_test.dart 201:25                                           testBloc.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                                            _CustomZone.registerUnaryCallback
+  package:bloc_test/src/bloc_test.dart 199:7                                            testBloc.<fn>
+  package:bloc_test/src/bloc_test.dart 252:15                                           _runZonedGuarded.<fn>
+  dart:async                                                                            runZonedGuarded
+  package:bloc_test/src/bloc_test.dart 251:3                                            _runZonedGuarded
+  package:bloc_test/src/bloc_test.dart 198:11                                           testBloc
+  package:bloc_test/src/bloc_test.dart 156:13                                           blocTest.<fn>
+  
+00:00 +41 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Login API Interaction emits failHandler on API failure
+00:00 +42 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Login API Interaction emits unexpectedError when login succeeds but response is null
+00:00 +43 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Login API Interaction emits navigateToRegister when didPressSignUp is added
+00:00 +44 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: LoginBloc Login API Interaction emits navigateToTab when didPressOnContinueAsGuest is added
+00:00 +45 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/login_test.dart: (tearDownAll)
+00:01 +45 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: (setUpAll)
+00:01 +45 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: RegisterBloc Input Changes fullNameChanged updates fullName
+00:01 +46 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: RegisterBloc Input Changes emailChanged updates email and clears error
+00:01 +47 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: RegisterBloc Input Changes passwordChanged updates password
+00:01 +48 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: RegisterBloc Input Changes passwordVisibleChanged toggles visibility
+00:01 +49 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: RegisterBloc Validation (didPressSignUp) emits errors if all fields empty
+00:01 +50 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: RegisterBloc Validation (didPressSignUp) emits error if email format is invalid
+00:01 +51 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: RegisterBloc Registration Flow full registration flow: signup -> updateProfile -> success
+00:01 +52 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: RegisterBloc Registration Flow emits failHandler on signUp failure
+00:01 +53 -5: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: RegisterBloc Navigation didPressOnDismiss emits navigation to Tab
+00:01 +53 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/search_test.dart: (setUpAll)
+00:01 +53 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/register_test.dart: RegisterBloc Navigation didPressOnDismiss emits navigation to Tab [E]
+  Expected: [
+              _RegisterState:RegisterState(viewState: Instance of 'Loaded', fullName: , fullNameIsError: false, email: , emailErrorType: EmailErrorType.none, password: , passwordIsError: false, passwordVisible: false, successSignedUp: false, navigation: RegisterNavigation.tab)
+            ]
+    Actual: [
+              _RegisterState:RegisterState(viewState: Instance of 'Loaded', fullName: , fullNameIsError: false, email: , emailErrorType: EmailErrorType.none, password: , passwordIsError: false, passwordVisible: false, successSignedUp: false, navigation: RegisterNavigation.login)
+            ]
+     Which: at location [0] is _RegisterState:<RegisterState(viewState: Instance of 'Loaded', fullName: , fullNameIsError: false, email: , emailErrorType: EmailErrorType.none, password: , passwordIsError: false, passwordVisible: false, successSignedUp: false, navigation: RegisterNavigation.login)> instead of _RegisterState:<RegisterState(viewState: Instance of 'Loaded', fullName: , fullNameIsError: false, email: , emailErrorType: EmailErrorType.none, password: , passwordIsError: false, passwordVisible: false, successSignedUp: false, navigation: RegisterNavigation.tab)>
+  
+  ==== diff ========================================
+  
+  [90m[RegisterState(viewState: Instance of 'Loaded', fullName: , fullNameIsError: false, email: , emailErrorType: EmailErrorType.none, password: , passwordIsError: false, passwordVisible: false, successSignedUp: false, navigation: RegisterNavigation.[0m[31m[-tab-][0m[32m{+login+}[0m[90m)][0m
+  
+  ==== end diff ====================================
+  
+  package:bloc_test/src/bloc_test.dart 224:11  testBloc.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                   _Completer.completeError
+  package:bloc_test/src/bloc_test.dart 255:43  _runZonedGuarded.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                   _CustomZone.registerBinaryCallback
+  package:bloc_test/src/bloc_test.dart 252:5   _runZonedGuarded.<fn>
+  dart:async                                   runZonedGuarded
+  package:bloc_test/src/bloc_test.dart 251:3   _runZonedGuarded
+  package:bloc_test/src/bloc_test.dart 198:11  testBloc
+  package:bloc_test/src/bloc_test.dart 156:13  blocTest.<fn>
+  
+00:01 +54 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/search_test.dart: (setUpAll)
+00:01 +54 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/search_test.dart: SearchBloc initial state is correct
+00:01 +55 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/checkout_bloc_test.dart: (setUpAll)
+00:01 +55 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/search_test.dart: SearchBloc started event triggers initial search
+00:01 +56 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/search_test.dart: SearchBloc started event triggers initial search
+00:01 +57 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/search_test.dart: SearchBloc started event triggers initial search
+00:01 +58 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/facilities_list_bloc_test.dart: FacilitiesListBloc initial state is correct
+00:01 +59 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/facilities_list_bloc_test.dart: FacilitiesListBloc initial state is correct
+00:01 +60 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/facilities_list_bloc_test.dart: FacilitiesListBloc initial state is correct
+00:01 +61 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/facilities_list_bloc_test.dart: FacilitiesListBloc initial state is correct
+00:01 +62 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/facilities_list_bloc_test.dart: FacilitiesListBloc initial state is correct
+00:01 +63 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/checkout_bloc_test.dart: (tearDownAll)
+00:01 +63 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/facilities_list_bloc_test.dart: FacilitiesListBloc emits correct state when _ToggleExpansion adds an index
+00:01 +64 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/main_app_bloc_test.dart: MainAppBloc initial state is correct
+00:01 +65 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/main_app_bloc_test.dart: MainAppBloc initial state is correct
+00:01 +66 -6: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/main_app_bloc_test.dart: MainAppBloc emits correct theme mode and updates language when started
+00:01 +66 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc initial state is correct from lookups
+00:01 +66 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/main_app_bloc_test.dart: MainAppBloc emits correct theme mode and updates language when started [E]
+  No matching calls. All calls: MockAppPreferences.theme
+  (If you called `verify(...).called(0);`, please instead use `verifyNever(...);`.)
+  package:matcher                              fail
+  package:mocktail/src/mocktail.dart 728:7     _VerifyCall._checkWith
+  package:mocktail/src/mocktail.dart 519:18    _makeVerify.<fn>
+  test/main_app_bloc_test.dart 39:15           main.<fn>.<fn>
+  package:bloc_test/src/bloc_test.dart 228:21  testBloc.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                   _Completer.completeError
+  package:bloc_test/src/bloc_test.dart 255:43  _runZonedGuarded.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                   _CustomZone.registerBinaryCallback
+  package:bloc_test/src/bloc_test.dart 252:5   _runZonedGuarded.<fn>
+  dart:async                                   runZonedGuarded
+  package:bloc_test/src/bloc_test.dart 251:3   _runZonedGuarded
+  package:bloc_test/src/bloc_test.dart 198:11  testBloc
+  package:bloc_test/src/bloc_test.dart 156:13  blocTest.<fn>
+  
+00:01 +67 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc initial state is correct with initialRequest
+00:01 +68 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc emits updated catId when CategoryChanged is added
+00:01 +69 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc emits updated prices when PriceChanged is added
+00:01 +70 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc emits toggled instant book when InstantBookToggled is added
+00:01 +71 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc emits updated cityName when LocationSelected is added
+00:01 +72 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc emits null cityName when same LocationSelected is added (toggled off)
+00:01 +73 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc emits updated facilitiesIds when FacilityToggled is added
+00:01 +74 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc removes facilityId when FacilityToggled is added for existing facility
+00:01 +75 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc emits updated minRating when RatingSelected is added
+00:01 +76 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/filter_bloc_test.dart: FilterBloc emits null minRating when same RatingSelected is added (toggled off)
+00:01 +77 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: (setUpAll)
+00:01 +77 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc initial state is correct
+00:01 +78 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc started event calculates initial payment details
+00:01 +79 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc Date Selection updates checkIn normally when before checkOut
+00:01 +80 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc Date Selection updates checkOut state and recalculates payment when checkOutSelected
+00:01 +81 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc Date Selection adjusts checkOut when checkIn is moved past it
+00:01 +82 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc Guest Counter increments guestCount
+00:01 +83 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc Guest Counter decrements guestCount
+00:01 +84 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc Guest Counter does not decrement below 1
+00:01 +85 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc Guest Counter does not increment above _kMaxGuests (10)
+00:01 +86 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc BookingModel Serialization toJson and fromJson round-trip successfully
+00:01 +87 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/onboarding_bloc_test.dart: OnboardingBloc initial state is correct
+00:01 +88 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/hotel_booking_bloc_test.dart: HotelBookingBloc Calculation Deep Testing calculates correct payment for multiple nights and guests
+00:01 +89 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/onboarding_bloc_test.dart: OnboardingBloc emits pages and first page data when loadPages is added
+00:01 +90 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/onboarding_bloc_test.dart: OnboardingBloc emits pages and first page data when loadPages is added
+00:01 +91 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/onboarding_bloc_test.dart: OnboardingBloc emits pages and first page data when loadPages is added
+00:01 +92 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/onboarding_bloc_test.dart: OnboardingBloc emits updated selectedIndex and currentPageData when changePage is added
+00:01 +93 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/onboarding_bloc_test.dart: OnboardingBloc emits navigation to tab and updates preference when getStartedPressed is added
+00:02 +94 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/splash_test.dart: (setUpAll)
+00:02 +94 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/splash_test.dart: SplashBloc Jailbreak Response - Secure Device emits loaded state with onboarding navigation when fresh installed
+00:02 +95 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/splash_test.dart: SplashBloc Jailbreak Response - Secure Device emits loaded state with tab navigation when not fresh installed
+00:02 +96 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/splash_test.dart: SplashBloc Jailbreak Response - Insecure Device emits jailBroken state when device is not secure
+00:02 +97 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/splash_test.dart: SplashBloc Security Check Result Handling handles secure result correctly
+00:02 +98 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/splash_test.dart: SplashBloc Security Check Result Handling handles insecure result with debug detected
+00:02 +99 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/splash_test.dart: SplashBloc Security Check Result Handling handles insecure result with emulator detected
+00:02 +100 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/splash_test.dart: SplashBloc Edge Cases handles multiple jailbreak response events with secure result
+00:02 +101 -7: /Volumes/Data/Work/Link/Flutter/iOS - Flutter/test/splash_test.dart: (tearDownAll)
+00:02 +101 -7: Some tests failed.

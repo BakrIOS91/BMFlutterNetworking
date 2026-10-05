@@ -1,0 +1,54 @@
+# Use bundle exec fastlane <lane>
+default_platform(:ios)
+
+before_all do
+  # Load environment variables from .env if running standalone
+  if File.exist?("../../.env")
+    require 'dotenv'
+    Dotenv.load("../../.env")
+  end
+end
+
+platform :ios do
+  desc "Run Flutter unit tests"
+  lane :test do
+    run_with_env("cd ../.. && flutter test")
+  end
+
+  desc "Build and Distribute to Firebase App Distribution"
+  lane :distribute do
+    # 1. Update native dependencies
+    run_with_env("cd ../.. && flutter pub get")
+    run_with_env("pod install")
+
+    # 2. Build for production (Ad-Hoc)
+    run_with_env("cd ../.. && flutter build ipa --release --export-method=ad-hoc")
+
+    # 3. Upload to Firebase
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID_IOS"],
+      groups: ENV["FIREBASE_TESTER_GROUPS"],
+      release_notes: ENV["RELEASE_NOTES"] || "New iOS build from Fastlane",
+      ipa_path: File.expand_path("../../build/ios/ipa/Grand Hotel.ipa", __dir__),
+      firebase_cli_token: ENV["FIREBASE_TOKEN"],
+      debug: false
+    )
+  end
+end
+
+# Helper to run shell commands with a guaranteed environment and Bundler isolation
+def run_with_env(command)
+  flutter_bin = ENV["FLUTTER_PATH"] || "/opt/homebrew/share/flutter/bin"
+  hb_bin = "/opt/homebrew/bin"
+  path_prefix = "export PATH=\"#{flutter_bin}:#{hb_bin}:$PATH\""
+  locale_prefix = "export LANG=en_US.UTF-8 && export LC_ALL=en_US.UTF-8"
+  full_command = "#{locale_prefix} && #{path_prefix} && #{command}"
+  
+  if defined?(Bundler)
+    Bundler.with_unbundled_env do
+      sh(full_command)
+    end
+  else
+    sh(full_command)
+  end
+end

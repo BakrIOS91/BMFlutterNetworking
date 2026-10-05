@@ -1,3 +1,5 @@
+/// BMFlutterNetworking — a type-safe Flutter networking layer with automatic
+/// token refresh, SSL pinning, interceptors, and connectivity monitoring.
 library;
 
 /// =======================
@@ -6,21 +8,36 @@ library;
 
 export 'src/helpers/enums.dart';
 export 'src/helpers/api_error.dart';
+export 'src/helpers/models/bm_cookie.dart';
 export 'src/helpers/models/downloaded_file.dart';
 
 /// =======================
 /// NETWORK — Core
 /// =======================
 
+export 'src/network/core/inspector/network_inspector.dart';
+export 'src/network/core/inspector/network_inspector_overlay.dart';
+export 'src/network/core/inspector/network_log_entry.dart';
+export 'src/network/core/cancel_token.dart';
+export 'src/network/core/encryption/payload_encryptor.dart';
 export 'src/network/core/logger.dart';
+export 'src/network/core/network_config.dart';
 export 'src/network/core/network_monitor.dart';
 export 'src/network/core/network_response.dart';
 export 'src/network/core/request_task.dart';
 export 'src/network/core/result.dart';
 export 'src/network/core/ssl_pinning.dart';
+export 'src/network/core/ssl_pinning_helper.dart';
 export 'src/network/perform_async.dart';
 export 'src/network/perform_result.dart';
 export 'src/network/error_handler.dart';
+
+/// =======================
+/// WEBSOCKET
+/// =======================
+
+export 'src/websocket/reconnect_policy.dart';
+export 'src/websocket/websocket_client.dart';
 
 /// =======================
 /// NETWORK — High Level

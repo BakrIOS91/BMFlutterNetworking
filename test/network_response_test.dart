@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bm_flutter_networking/bm_flutter_networking.dart';
 
 void main() {
   group('NetworkResponse', () {
     test('stores all fields correctly', () {
-      final cookies = [Cookie('session', 'abc123')];
+      final cookies = [BMCookie(name: 'session', value: 'abc123')];
       final response = NetworkResponse<String>(
         data: 'hello',
         statusCode: 200,
@@ -23,8 +21,8 @@ void main() {
 
     test('cookieHeader returns formatted string when cookies present', () {
       final cookies = [
-        Cookie('session', 'abc'),
-        Cookie('user', '123'),
+        BMCookie(name: 'session', value: 'abc'),
+        BMCookie(name: 'user', value: '123'),
       ];
       final response = NetworkResponse<void>(
         data: null,
@@ -80,16 +78,16 @@ void main() {
     });
 
     test('parses a cookie with attributes', () {
-      final cookies = parseSetCookieHeader(
-          'session=abc123; Path=/; HttpOnly');
+      final cookies = parseSetCookieHeader('session=abc123; Path=/; HttpOnly');
       expect(cookies.length, 1);
       expect(cookies[0].name, 'session');
       expect(cookies[0].value, 'abc123');
+      expect(cookies[0].httpOnly, isTrue);
+      expect(cookies[0].path, '/');
     });
 
     test('splits multiple cookies on comma', () {
-      final cookies =
-          parseSetCookieHeader('session=abc, token=xyz');
+      final cookies = parseSetCookieHeader('session=abc, token=xyz');
       expect(cookies.length, 2);
       expect(cookies[0].name, 'session');
       expect(cookies[1].name, 'token');
@@ -103,11 +101,13 @@ void main() {
       expect(cookies[1].name, 'other');
     });
 
-    test('ignores malformed cookie parts without throwing', () {
-      // A completely invalid cookie part should be skipped
+    test('parses or skips malformed cookie parts without throwing', () {
+      expect(
+        () => parseSetCookieHeader('valid=ok, !!!invalid!!!'),
+        returnsNormally,
+      );
       final cookies = parseSetCookieHeader('valid=ok, !!!invalid!!!');
-      // At minimum the valid one should be parsed, invalid silently dropped
-      expect(cookies.whereType<Cookie>().isNotEmpty || cookies.isEmpty, isTrue);
+      expect(cookies.first.name, 'valid');
     });
   });
 }

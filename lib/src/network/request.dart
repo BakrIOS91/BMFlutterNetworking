@@ -2,11 +2,11 @@
 library;
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:bm_flutter_networking/bm_flutter_networking.dart';
+import 'package:bm_flutter_networking/src/platform/file_io.dart';
 
 /// Extension to create HTTP requests from TargetRequest configurations
 extension Request on TargetRequest {
@@ -25,6 +25,7 @@ extension Request on TargetRequest {
       }
     } catch (e) {
       if (e is APIError) rethrow;
+      if (e is UnsupportedError) rethrow;
       throw const APIError(APIErrorType.invalidURL);
     }
   }
@@ -53,11 +54,13 @@ extension Request on TargetRequest {
         final body = requestTask.body;
         if (body != null) {
           try {
-            final requestBody = jsonEncode(body);
+            final requestBody = jsonEncode(_encryptedBody(body));
             request.body = requestBody;
             request.headers['Content-Length'] =
                 utf8.encode(requestBody).length.toString();
             request.headers['Content-Type'] = 'application/json';
+          } on APIError {
+            rethrow;
           } catch (_) {
             throw const APIError(APIErrorType.dataConversionFailed);
           }
@@ -67,14 +70,12 @@ extension Request on TargetRequest {
       case RequestTaskType.uploadFile:
         final filePath = requestTask.filePath;
         if (filePath != null) {
-          final file = File(filePath);
-          if (await file.exists()) {
-            final bytes = await file.readAsBytes();
-            request.bodyBytes = bytes;
-            request.headers['Content-Length'] = bytes.length.toString();
-          } else {
+          final bytes = await readFileBytesFromPath(filePath);
+          if (bytes == null) {
             throw const APIError(APIErrorType.invalidURL);
           }
+          request.bodyBytes = bytes;
+          request.headers['Content-Length'] = bytes.length.toString();
         }
         return request;
 
@@ -129,11 +130,13 @@ extension Request on TargetRequest {
         final body = requestTask.body;
         if (body != null) {
           try {
-            final requestBody = jsonEncode(body);
+            final requestBody = jsonEncode(_encryptedBody(body));
             newReq.body = requestBody;
             newReq.headers['Content-Length'] =
                 utf8.encode(requestBody).length.toString();
             newReq.headers['Content-Type'] = 'application/json';
+          } on APIError {
+            rethrow;
           } catch (_) {
             throw const APIError(APIErrorType.dataConversionFailed);
           }
@@ -147,7 +150,21 @@ extension Request on TargetRequest {
     throw const APIError(APIErrorType.notSupportedSOAPOperation);
   }
 
+  /// Replaces [body] with the encrypted envelope when encryption applies.
+  Object? _encryptedBody(Object? body) =>
+      encryptsPayload && NetworkConfig.shouldEncrypt
+          ? NetworkConfig.payloadEncryptor!.encrypt(body)
+          : body;
+
   Map<String, dynamic> _normalizeQueryParameters(Map<String, dynamic> params) {
+    if (requestMethod == HTTPMethod.get &&
+        encryptsPayload &&
+        NetworkConfig.encryptQueryParameters &&
+        NetworkConfig.shouldEncrypt) {
+      params = Map<String, dynamic>.from(
+        NetworkConfig.payloadEncryptor!.encrypt(params) as Map,
+      );
+    }
     return params.map((key, value) {
       if (value == null) return MapEntry(key, null);
       if (value is Iterable) {
