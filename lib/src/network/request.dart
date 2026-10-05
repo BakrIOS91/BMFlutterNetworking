@@ -54,11 +54,13 @@ extension Request on TargetRequest {
         final body = requestTask.body;
         if (body != null) {
           try {
-            final requestBody = jsonEncode(body);
+            final requestBody = jsonEncode(_encryptedBody(body));
             request.body = requestBody;
             request.headers['Content-Length'] =
                 utf8.encode(requestBody).length.toString();
             request.headers['Content-Type'] = 'application/json';
+          } on APIError {
+            rethrow;
           } catch (_) {
             throw const APIError(APIErrorType.dataConversionFailed);
           }
@@ -128,11 +130,13 @@ extension Request on TargetRequest {
         final body = requestTask.body;
         if (body != null) {
           try {
-            final requestBody = jsonEncode(body);
+            final requestBody = jsonEncode(_encryptedBody(body));
             newReq.body = requestBody;
             newReq.headers['Content-Length'] =
                 utf8.encode(requestBody).length.toString();
             newReq.headers['Content-Type'] = 'application/json';
+          } on APIError {
+            rethrow;
           } catch (_) {
             throw const APIError(APIErrorType.dataConversionFailed);
           }
@@ -146,7 +150,21 @@ extension Request on TargetRequest {
     throw const APIError(APIErrorType.notSupportedSOAPOperation);
   }
 
+  /// Replaces [body] with the encrypted envelope when encryption applies.
+  Object? _encryptedBody(Object? body) =>
+      encryptsPayload && NetworkConfig.shouldEncrypt
+          ? NetworkConfig.payloadEncryptor!.encrypt(body)
+          : body;
+
   Map<String, dynamic> _normalizeQueryParameters(Map<String, dynamic> params) {
+    if (requestMethod == HTTPMethod.get &&
+        encryptsPayload &&
+        NetworkConfig.encryptQueryParameters &&
+        NetworkConfig.shouldEncrypt) {
+      params = Map<String, dynamic>.from(
+        NetworkConfig.payloadEncryptor!.encrypt(params) as Map,
+      );
+    }
     return params.map((key, value) {
       if (value == null) return MapEntry(key, null);
       if (value is Iterable) {

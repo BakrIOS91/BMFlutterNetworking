@@ -1,3 +1,13 @@
+## 2.2.0
+
+* Added payload encryption: `NetworkConfig`, `PayloadEncryptor` and `HybridPayloadEncryptor` (random AES-128-CBC key and IV per request, AES key wrapped with an RSA public key; PKCS#1 v1.5 by default, OAEP and raw-byte keys supported). Per-environment switch, per-endpoint opt-out (`encryptsPayload`), optional GET query-string encryption.
+* Added global and per-endpoint timeouts: connect, send and receive (`NetworkConfig`, `connectTimeout` / `sendTimeout` / `receiveTimeout` on `TargetRequest`), surfacing `APIErrorType.timeout`.
+* Added `CancelToken` support to every `perform…` method (`APIErrorType.cancelled`).
+* Requests now abort as soon as the connection drops: `noNetwork` for reads, the new `connectionLostDuringRequest` for requests that change state. Neither is retried, and the 401 refresh-and-retry skips them.
+* Added `BMWebSocketClient`, `BMWebSocketRegistry` and `ReconnectPolicy`: authenticated multi-stream sockets with automatic reconnect (backoff + jitter), token refresh on reconnect, connection state and message streams, and close-all for logout.
+* New `APIErrorType` values: `encryptionFailed`, `timeout`, `cancelled`, `connectionLostDuringRequest`. Exhaustive `switch`es over `APIErrorType` need the new cases.
+* New dependency: `web_socket_channel`.
+
 ## 0.2.1
 
 * Fixed `ModelTargetType` requests crashing with `TypeError: type 'List<dynamic>' is not a subtype of type 'Map<String, dynamic>'` for any endpoint whose success response is a top-level JSON array. The internal decode call was statically typed against `fromJson(Map<String, dynamic>)`, so Dart inserted an implicit downcast before dispatch, regardless of the target's own override.
