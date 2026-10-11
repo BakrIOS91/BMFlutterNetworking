@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'bm_flutter_networking'
-  s.version          = '0.1.12'
+  s.version          = '2.2.1'
   s.summary          = 'A Flutter networking package providing a type-safe network layer with SSL pinning, token refresh, interceptors, and connectivity monitoring.'
   s.description      = <<-DESC
 A Flutter networking package providing a type-safe network layer with SSL pinning, token refresh, interceptors, and connectivity monitoring.
@@ -13,7 +13,7 @@ A Flutter networking package providing a type-safe network layer with SSL pinnin
   s.license          = { :type => 'MIT', :file => '../LICENSE' }
   s.author           = { 'Bakr Mohamed' => 'bakrios91@gmail.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'bm_flutter_networking/Sources/bm_flutter_networking/**/*.swift'
   s.dependency 'Flutter'
   s.platform = :ios, '12.0'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }

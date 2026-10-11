@@ -1,3 +1,7 @@
+## 2.2.1
+
+* iOS: added Swift Package Manager support (`ios/bm_flutter_networking/Package.swift`; sources moved to `Sources/bm_flutter_networking`). CocoaPods keeps working; the podspec now points at the new location and its version matches the package.
+
 ## 2.2.0
 
 * Added payload encryption: `NetworkConfig`, `PayloadEncryptor` and `HybridPayloadEncryptor` (random AES-128-CBC key and IV per request, AES key wrapped with an RSA public key; PKCS#1 v1.5 by default, OAEP and raw-byte keys supported). Per-environment switch, per-endpoint opt-out (`encryptsPayload`), optional GET query-string encryption.
