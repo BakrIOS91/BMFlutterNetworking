@@ -23,7 +23,7 @@ class DownloadedFile {
   const DownloadedFile({this.downloadedUrl, this.response, this.remoteUrl});
 
   Map<String, dynamic> toJson() => {
-    'downloadedUrl': downloadedUrl?.toString(),
-    'remoteUrl': remoteUrl?.toString(),
-  };
+        'downloadedUrl': downloadedUrl?.toString(),
+        'remoteUrl': remoteUrl?.toString(),
+      };
 }

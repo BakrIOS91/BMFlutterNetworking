@@ -27,7 +27,8 @@ class RequestTask {
     this.offset,
   });
 
-  factory RequestTask.plain() => const RequestTask._(type: RequestTaskType.plain);
+  factory RequestTask.plain() =>
+      const RequestTask._(type: RequestTaskType.plain);
 
   factory RequestTask.parameters(Map<String, dynamic> params) =>
       RequestTask._(type: RequestTaskType.parameters, parameters: params);
@@ -51,7 +52,8 @@ class RequestTask {
         offset: offset,
       );
 
-  factory RequestTask.parametersAndBody(Map<String, dynamic> params, dynamic body) =>
+  factory RequestTask.parametersAndBody(
+          Map<String, dynamic> params, dynamic body) =>
       RequestTask._(
         type: RequestTaskType.parametersAndBody,
         parameters: params,

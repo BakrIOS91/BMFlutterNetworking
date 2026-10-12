@@ -2,7 +2,6 @@
 library;
 
 import 'dart:async';
-import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -36,7 +35,7 @@ class ShakeDetector {
   });
 
   void startListening() {
-    if (!kIsWeb && Platform.isIOS) {
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
       _iosShakeSubscription =
           _iosShakeChannel.receiveBroadcastStream().listen((_) => onShake());
       return;

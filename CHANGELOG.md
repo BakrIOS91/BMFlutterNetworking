@@ -1,3 +1,7 @@
+## 2.2.2
+
+* Full pub.dev score: removed the `dart:io` import from the shake detector (restores WASM compatibility), upgraded `sensors_plus` to `^7.1.1`, shortened the package description, and fixed formatting and lint issues.
+
 ## 2.2.1
 
 * iOS: added Swift Package Manager support (`ios/bm_flutter_networking/Package.swift`; sources moved to `Sources/bm_flutter_networking`). CocoaPods keeps working; the podspec now points at the new location and its version matches the package.

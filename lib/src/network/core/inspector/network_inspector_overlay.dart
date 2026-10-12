@@ -141,7 +141,8 @@ class _NetworkLogSheetState extends State<_NetworkLogSheet>
   @override
   Widget build(BuildContext context) {
     final sheetHeight = MediaQuery.of(context).size.height * 0.92;
-    final curved = CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
+    final curved =
+        CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
 
     return AnimatedBuilder(
       animation: _controller,
@@ -152,7 +153,8 @@ class _NetworkLogSheetState extends State<_NetworkLogSheet>
               child: GestureDetector(
                 onTap: _dismiss,
                 child: Container(
-                  color: Colors.black.withValues(alpha: 0.55 * _controller.value),
+                  color:
+                      Colors.black.withValues(alpha: 0.55 * _controller.value),
                 ),
               ),
             ),
@@ -195,7 +197,8 @@ class _SheetChrome extends StatelessWidget {
             builder: (context) {
               final colors = _InspectorColors.of(context);
               return ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(20)),
                 child: Material(
                   color: colors.background,
                   // The sheet already sits clear of the notch/status bar (it's
@@ -211,7 +214,9 @@ class _SheetChrome extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onVerticalDragEnd: (details) {
-                              if ((details.primaryVelocity ?? 0) > 300) onDismiss();
+                              if ((details.primaryVelocity ?? 0) > 300) {
+                                onDismiss();
+                              }
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -234,9 +239,11 @@ class _SheetChrome extends StatelessWidget {
                             child: HeroControllerScope.none(
                               child: Navigator(
                                 key: navigatorKey,
-                                onGenerateRoute: (settings) => MaterialPageRoute(
+                                onGenerateRoute: (settings) =>
+                                    MaterialPageRoute(
                                   settings: settings,
-                                  builder: (_) => NetworkLogListPage(onClose: onDismiss),
+                                  builder: (_) =>
+                                      NetworkLogListPage(onClose: onDismiss),
                                 ),
                               ),
                             ),
@@ -318,7 +325,9 @@ class _NetworkLogListPageState extends State<NetworkLogListPage> {
             builder: (context, brightness, _) => IconButton(
               tooltip: 'Toggle theme',
               icon: Icon(
-                brightness == Brightness.dark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+                brightness == Brightness.dark
+                    ? Icons.light_mode_outlined
+                    : Icons.dark_mode_outlined,
                 color: colors.textSecondary,
               ),
               onPressed: NetworkInspector.instance.toggleBrightness,
@@ -370,7 +379,8 @@ class _NetworkLogListPageState extends State<NetworkLogListPage> {
                 return ListView.separated(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   itemCount: filtered.length,
-                  separatorBuilder: (_, __) => Divider(color: colors.border, height: 1),
+                  separatorBuilder: (_, __) =>
+                      Divider(color: colors.border, height: 1),
                   itemBuilder: (context, index) {
                     final entry = filtered[index];
                     return _LogListTile(
@@ -483,7 +493,9 @@ class _LogListTile extends StatelessWidget {
                 _StatusBadge(entry: entry),
                 const SizedBox(height: 4),
                 Text(
-                  entry.duration != null ? '${entry.duration!.inMilliseconds}ms' : '···',
+                  entry.duration != null
+                      ? '${entry.duration!.inMilliseconds}ms'
+                      : '···',
                   style: TextStyle(color: colors.textTertiary, fontSize: 11),
                 ),
               ],
@@ -540,13 +552,17 @@ class NetworkLogDetailPage extends StatelessWidget {
           _Section(title: 'URL', content: entry.url.toString()),
           if (entry.error != null)
             _Section(title: 'Error', content: '${entry.error}', isError: true),
-          _Section(title: 'Request Headers', content: _formatHeaders(entry.requestHeaders)),
-          _Section(title: 'Request Body', content: _formatBody(entry.requestBody)),
+          _Section(
+              title: 'Request Headers',
+              content: _formatHeaders(entry.requestHeaders)),
+          _Section(
+              title: 'Request Body', content: _formatBody(entry.requestBody)),
           _Section(
             title: 'Response Headers',
             content: _formatHeaders(entry.responseHeaders ?? {}),
           ),
-          _Section(title: 'Response Body', content: _formatBody(entry.responseBody)),
+          _Section(
+              title: 'Response Body', content: _formatBody(entry.responseBody)),
         ],
       ),
     );
@@ -671,7 +687,8 @@ class _MethodBadge extends StatelessWidget {
       ),
       child: Text(
         method.toUpperCase(),
-        style: TextStyle(color: _color, fontSize: 11, fontWeight: FontWeight.bold),
+        style:
+            TextStyle(color: _color, fontSize: 11, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -709,7 +726,8 @@ class _StatusBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.bold),
+        style:
+            TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.bold),
       ),
     );
   }
