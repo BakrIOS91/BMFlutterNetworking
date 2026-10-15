@@ -14,8 +14,14 @@ class NetworkMonitor {
   @visibleForTesting
   static NetworkMonitor createForTesting() => const NetworkMonitor._();
 
+  /// No-op on WASM.
+  static void start() {}
+
   /// Always returns `true` on WASM. Network errors surface as HTTP failures.
   static Future<bool> get isConnected async => true;
+
+  /// Returns an empty stream on WASM — connectivity events are not available.
+  static Stream<bool> get changes => const Stream.empty();
 
   /// Returns an empty stream on WASM — connectivity events are not available.
   static Stream<bool> get onConnectivityChanged => const Stream.empty();

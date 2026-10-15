@@ -24,7 +24,7 @@ class RequestGuard {
   /// Source of connectivity changes (true = online). Replaced in tests.
   @visibleForTesting
   static Stream<bool> Function() connectivityProvider =
-      () => NetworkMonitor.onConnectivityChanged;
+      () => NetworkMonitor.changes;
 
   /// Whether the request can change server state.
   final bool isMutating;

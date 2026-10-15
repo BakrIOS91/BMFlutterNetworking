@@ -1,3 +1,9 @@
+## 2.2.3
+
+* Fixed a false "no network" on iOS while online: `NetworkMonitor` now keeps one app-wide subscription to the platform connectivity stream (`NetworkMonitor.start()`, also started automatically on first use), because `connectivity_plus` discards its `NWPathMonitor` when the last listener cancels and the next check reads an unevaluated path. An offline result is re-checked once after 500 ms.
+* Any active interface (wifi, mobile, ethernet, vpn, other) now counts as online; only an explicit `none` is offline.
+* Added `NetworkMonitor.changes` (changes only, no seeded status). Request guards use it so a stale status never cancels a new request.
+
 ## 2.2.2
 
 * Full pub.dev score: removed the `dart:io` import from the shake detector (restores WASM compatibility), upgraded `sensors_plus` to `^7.1.1`, shortened the package description, and fixed formatting and lint issues.
