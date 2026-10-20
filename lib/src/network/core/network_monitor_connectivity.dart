@@ -13,6 +13,8 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 
+import 'connectivity_provider.dart';
+
 /// Provides real-time and on-demand network connectivity status monitoring
 class NetworkMonitor {
   const NetworkMonitor._();
@@ -27,17 +29,35 @@ class NetworkMonitor {
   static final _changes = StreamController<bool>.broadcast();
   static StreamSubscription<List<ConnectivityResult>>? _subscription;
 
+  static ConnectivityProvider? _provider;
+
+  /// Replaces the platform connectivity source with [provider] (pass `null`
+  /// to go back to `connectivity_plus`). While a provider is set,
+  /// `connectivity_plus` is not used at all, which is what you want on a
+  /// platform where that plugin has no implementation.
+  static void useProvider(ConnectivityProvider? provider) {
+    _provider = provider;
+    if (provider != null) {
+      _subscription?.cancel();
+      _subscription = null;
+    }
+  }
+
   /// Starts monitoring. Called automatically on first use; calling it early
   /// (e.g. in `main`) only warms up the platform monitor.
   static void start() {
-    if (_subscription != null || connectivityOverride != null) return;
+    if (_subscription != null ||
+        connectivityOverride != null ||
+        _provider != null) {
+      return;
+    }
     try {
       _subscription = Connectivity().onConnectivityChanged.listen(
-            (results) => _changes.add(_isOnline(results)),
-            onError: (_) {},
-            // Re-subscribe on next use if the platform stream ever ends.
-            onDone: () => _subscription = null,
-          );
+        (results) => _changes.add(_isOnline(results)),
+        onError: (_) {},
+        // Re-subscribe on next use if the platform stream ever ends.
+        onDone: () => _subscription = null,
+      );
     } catch (_) {
       // Platform channel unavailable; checks still work on demand.
     }
@@ -51,6 +71,10 @@ class NetworkMonitor {
   }
 
   static Future<bool> get isConnected async {
+    final provider = _provider;
+    if (provider != null && connectivityOverride == null) {
+      return provider.isOnline();
+    }
     start();
     if (await _check()) return true;
     await Future<void>.delayed(offlineRecheckDelay);
@@ -69,6 +93,8 @@ class NetworkMonitor {
   static Stream<bool> get changes {
     final override = connectivityOverride;
     if (override != null) return override;
+    final provider = _provider;
+    if (provider != null) return provider.onChanged;
     start();
     return _changes.stream;
   }
@@ -77,6 +103,13 @@ class NetworkMonitor {
   static Stream<bool> get onConnectivityChanged {
     final override = connectivityOverride;
     if (override != null) return override;
+    final provider = _provider;
+    if (provider != null) {
+      return (() async* {
+        yield await provider.isOnline();
+        yield* provider.onChanged;
+      })().asBroadcastStream();
+    }
     start();
 
     StreamSubscription<bool>? changes;

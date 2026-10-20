@@ -7,6 +7,8 @@ library;
 
 import 'package:flutter/foundation.dart';
 
+import 'connectivity_provider.dart';
+
 /// Provides real-time and on-demand network connectivity status monitoring
 class NetworkMonitor {
   const NetworkMonitor._();
@@ -14,15 +16,32 @@ class NetworkMonitor {
   @visibleForTesting
   static NetworkMonitor createForTesting() => const NetworkMonitor._();
 
+  static ConnectivityProvider? _provider;
+
+  /// Uses [provider] as the connectivity source (pass `null` to remove it).
+  /// Without a provider, WASM reports online and emits no events.
+  static void useProvider(ConnectivityProvider? provider) =>
+      _provider = provider;
+
   /// No-op on WASM.
   static void start() {}
 
-  /// Always returns `true` on WASM. Network errors surface as HTTP failures.
-  static Future<bool> get isConnected async => true;
+  /// `true` on WASM unless a provider is registered. Network errors surface
+  /// as HTTP failures.
+  static Future<bool> get isConnected async =>
+      _provider == null ? true : _provider!.isOnline();
 
-  /// Returns an empty stream on WASM — connectivity events are not available.
-  static Stream<bool> get changes => const Stream.empty();
+  /// Provider changes, or an empty stream when no provider is registered.
+  static Stream<bool> get changes =>
+      _provider?.onChanged ?? const Stream.empty();
 
-  /// Returns an empty stream on WASM — connectivity events are not available.
-  static Stream<bool> get onConnectivityChanged => const Stream.empty();
+  /// Current status then changes with a provider; an empty stream without one.
+  static Stream<bool> get onConnectivityChanged {
+    final provider = _provider;
+    if (provider == null) return const Stream.empty();
+    return (() async* {
+      yield await provider.isOnline();
+      yield* provider.onChanged;
+    })().asBroadcastStream();
+  }
 }

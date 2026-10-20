@@ -1,3 +1,9 @@
+## 2.3.0
+
+* Added `ConnectivityProvider` and `NetworkMonitor.useProvider(...)`: replace the `connectivity_plus` source with your own (for example a messaging client's connection state, or a platform where `connectivity_plus` has no implementation). While a provider is registered, `connectivity_plus` is never called. Pass `null` to go back to the default. Additive; nothing changes unless you register a provider.
+* Fixed the README install line, which still said `^0.2.0`.
+* Documented running on TV and other remote-controlled platforms (`NetworkInspectorOverlay(enabled: false)`, custom connectivity provider).
+
 ## 2.2.3
 
 * Fixed a false "no network" on iOS while online: `NetworkMonitor` now keeps one app-wide subscription to the platform connectivity stream (`NetworkMonitor.start()`, also started automatically on first use), because `connectivity_plus` discards its `NWPathMonitor` when the last listener cancels and the next check reads an unevaluated path. An offline result is re-checked once after 500 ms.

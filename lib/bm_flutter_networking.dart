@@ -19,6 +19,7 @@ export 'src/network/core/inspector/network_inspector.dart';
 export 'src/network/core/inspector/network_inspector_overlay.dart';
 export 'src/network/core/inspector/network_log_entry.dart';
 export 'src/network/core/cancel_token.dart';
+export 'src/network/core/connectivity_provider.dart';
 export 'src/network/core/encryption/payload_encryptor.dart';
 export 'src/network/core/logger.dart';
 export 'src/network/core/network_config.dart';

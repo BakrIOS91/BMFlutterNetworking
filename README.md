@@ -49,7 +49,7 @@ A structured, production-ready Flutter networking layer. Describe each endpoint 
 
 ```yaml
 dependencies:
-  bm_flutter_networking: ^0.2.0
+  bm_flutter_networking: ^2.3.0
 ```
 
 ---
@@ -890,6 +890,28 @@ NetworkMonitor.onConnectivityChanged.listen((isConnected) {
 ```
 
 The layer checks connectivity automatically before every request and throws `APIError(APIErrorType.noNetwork)` when offline — your client code receives it as a `Failure` in the `Result` type without any extra connectivity checks needed.
+
+---
+
+### Custom connectivity source and TV platforms
+
+By default `NetworkMonitor` reads connectivity through `connectivity_plus`. On a platform where that plugin has no implementation (some TV platforms), or when another signal is more accurate for your app, register your own source before the first request:
+
+```dart
+class MyConnectivity implements ConnectivityProvider {
+  @override
+  Future<bool> isOnline() async => client.isConnected;
+
+  @override
+  Stream<bool> get onChanged => client.connectionChanges; // changes only
+
+  // ...
+}
+
+NetworkMonitor.useProvider(MyConnectivity());
+```
+
+While a provider is registered, `connectivity_plus` is never called. On TV, also pass `enabled: false` to `NetworkInspectorOverlay` (there is no shaking a TV).
 
 ---
 
